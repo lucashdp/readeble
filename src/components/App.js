@@ -1,53 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card, Row, Col } from 'react-materialize';
+// import { Button } from 'react-materialize';
 import { addPost, removePost } from '../actions';
+import Post from './Post';
+import PostModal from './PostModal';
 //import ReadebleFooter from './ReadebleFooter';
-//import ReadebleAPI from '../utils/ReadebleAPI'
+import * as ReadebleAPI from '../utils/ReadebleAPI';
 
 class App extends Component {
 
   state = {
     posts: [],
-    post: { body: '' }
+    categories: []
+  }
+
+  componentDidMount() {
+    ReadebleAPI.getAll()
+      .then(
+      (posts) => { posts != undefined ? this.setState({ posts }) : '' }
+    );
+    ReadebleAPI.getCategories()
+    .then(
+    (data) => { this.setState({ categories: data.categories }) }
+    );
   }
 
   render() {    
     const { doPost, remove } = this.props
-    const { post } = this.state
+    const { posts } = this.state
 
     return (
       <div>
-        <Row></Row>
-        <Row>
-          <Col s={2}></Col>
-          <Col s={8}>
-            <textarea placeholder="Escreva seu post aqui" onChange=
-            {
-              (event) => {post.body = event.target.value}
-            } />
-          </Col>
-          <Col s={2}></Col>
-        </Row>
-        <Row>
-        <Col s={2}></Col>
-          <Col s={8}>
-          <Button waves='light' onClick={() => {
-                        doPost(post)
-                      }}>Enviar</Button>
-          </Col>
-          <Col s={2}></Col>
-        </Row>
-        <Row>
-        <Col s={2}></Col>
-          <Col s={8}>
-          <Card className='blue-grey darken-1' 
-          textClassName='white-text' title='Assunto' actions={[<a href='#'>Votar</a>,<a href='#'>Comentar</a>]}>
-          Exemplo de um post.
-          </Card>
-          </Col>
-          <Col s={2}></Col>
-        </Row>
+        <Post posts={posts}/> 
+        <PostModal/>   
       </div>
     );
   }

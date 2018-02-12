@@ -32,3 +32,14 @@ textarea:focus{
 	background-size: 100% 2px, 100% 1px;
 	outline: none;
 }
+
+.p-2 {
+	padding-top: 2%
+}
+
+.right {
+	z-index: 9999999999999;
+	position: absolute;
+	bottom: 2%;
+	right: 2%;
+}
