@@ -13,47 +13,50 @@ class App extends Component {
   state = {
     posts: [],
     categories: [],
-    loadingPosts: true
+    loading: true
   }
 
   componentDidMount() {
+    const getCategories = () => {
+      ReadebleAPI.getCategories()
+        .then(
+        (data) => { this.setState({ categories: data.categories, loading: false }) }
+        );
+    }
+
     ReadebleAPI.getAll()
       .then(
-      (posts) => { posts != undefined ? this.setState({ posts, loadingPosts: false }) : '' }
-    );
-    ReadebleAPI.getCategories()
-    .then(
-    (data) => { this.setState({ categories: data.categories }) }
-    );
+      (posts) => { (posts != undefined ? this.setState({ posts }) : ''); getCategories() }
+      );
   }
 
-  render() {    
+  render() {
     const { doPost, remove } = this.props
-    const { posts, loadingPosts } = this.state
+    const { posts, loading } = this.state
 
     return (
       <div>
-        {!loadingPosts ? (
+        {!loading ? (
           <div>
-            <Post posts={posts}/> 
-            <PostModal/>
+            <Post posts={posts} />
+            <PostModal />
           </div>
         ) : ""}
-        {loadingPosts ? (
-          <Loading/>
+        {loading ? (
+          <Loading />
         ) : ""}
       </div>
     );
   }
 }
 
-function mapStateToProps ({ post }) {
+function mapStateToProps({ post }) {
   return {
     post
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     doPost: (data) => dispatch(addPost(data)),
     remove: (data) => dispatch(removePost(data))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Card, Row, Col } from 'react-materialize';
+import { Row, Col } from 'react-materialize';
+import Card from './Card'
 
 export default function Post({ posts }) {
     if (posts && posts.length === 0) {
@@ -14,12 +15,7 @@ export default function Post({ posts }) {
                         <Row>
                             <Col s={2}></Col>
                             <Col s={8}>
-                                <Card className='blue-grey darken-1'
-                                    textClassName='white-text' 
-                                    title={post.title} 
-                                    actions={[<a href='#'>Votar</a>, <a href='#'>Comentar</a>]}>
-                                    {post.body}
-                                </Card>
+                                <Card post={post}/>
                             </Col>
                             <Col s={2}></Col>
                         </Row>
