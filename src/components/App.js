@@ -6,18 +6,20 @@ import Post from './Post';
 import PostModal from './PostModal';
 //import ReadebleFooter from './ReadebleFooter';
 import * as ReadebleAPI from '../utils/ReadebleAPI';
+import Loading from './Loading';
 
 class App extends Component {
 
   state = {
     posts: [],
-    categories: []
+    categories: [],
+    loadingPosts: true
   }
 
   componentDidMount() {
     ReadebleAPI.getAll()
       .then(
-      (posts) => { posts != undefined ? this.setState({ posts }) : '' }
+      (posts) => { posts != undefined ? this.setState({ posts, loadingPosts: false }) : '' }
     );
     ReadebleAPI.getCategories()
     .then(
@@ -27,12 +29,19 @@ class App extends Component {
 
   render() {    
     const { doPost, remove } = this.props
-    const { posts } = this.state
+    const { posts, loadingPosts } = this.state
 
     return (
       <div>
-        <Post posts={posts}/> 
-        <PostModal/>   
+        {!loadingPosts ? (
+          <div>
+            <Post posts={posts}/> 
+            <PostModal/>
+          </div>
+        ) : ""}
+        {loadingPosts ? (
+          <Loading/>
+        ) : ""}
       </div>
     );
   }
