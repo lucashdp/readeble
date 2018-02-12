@@ -10,12 +10,36 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
+/* --------------------------------------REGION GET--------------------------------------------------- */
 export const getAll = () =>
-  fetch(`${api}/posts/`, { headers })
+  fetch(`${api}/posts/`, { method: 'GET', headers })
     .then(response => response.json())
     .then(data => data);
 
 export const getCategories = () =>
-  fetch(`${api}/categories/`, { headers })
+  fetch(`${api}/categories/`, { method: 'GET', headers })
     .then(response => response.json())
     .then(data => data.categories);
+
+
+
+
+
+
+
+/* --------------------------------------REGION POST-------------------------------------------------- */
+export const doPost = (post) => {
+  return fetch(`${api}/posts/`, { method: 'POST', headers, post })
+    .then(response => response.json());
+};
+
+
+
+
+
+
+/* --------------------------------------REGION DELETE------------------------------------------------ */
+export const removePost = (post) => {
+  return fetch(`${api}/posts/${post.id}`, { method: 'DELETE', headers })
+    .then(response => response.json());
+};

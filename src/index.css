@@ -38,11 +38,16 @@ textarea:focus{
 	padding-top: 2%
 }
 
-.right {
+.right-absolute {
 	z-index: 9999999999999;
 	position: absolute;
 	bottom: 2%;
 	right: 2%;
+}
+
+
+.right {
+  align-content: right;
 }
 
 .center {    

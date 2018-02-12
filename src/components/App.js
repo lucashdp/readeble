@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   render() {
-    const { doPost, remove } = this.props
+    const { doPost, removePost } = this.props
     const { posts, loading } = this.state
 
     return (
@@ -58,8 +58,8 @@ function mapStateToProps({ post }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    doPost: (data) => dispatch(addPost(data)),
-    remove: (data) => dispatch(removePost(data))
+    doPost: (data) => dispatch(ReadebleAPI.doPost(data)),
+    removePost: (data) => dispatch(ReadebleAPI.removePost(data))
   }
 }
 

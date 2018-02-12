@@ -8,7 +8,7 @@ export default function PostModal({ post }) {
                 header='Novo Post'
                 id="modalPost"
                 actions={<Button className="blue" modal="close">Fechar</Button>}
-                trigger={<Button floating large className='blue right' waves='light' icon='+' />}>
+                trigger={<Button floating large className='blue right-absolute' waves='light' icon='+' />}>
                 <p>TEste</p>
             </Modal>
         </div>
