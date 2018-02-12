@@ -9,8 +9,8 @@ export default function Card({ post }) {
                 <p>{post.body}</p>
             </div>
             <div class="card-action">
-                <a href="#">Votar</a>
-                <a href="#">Comentar</a>
+                <a className="white-text" href="#">Votar</a>
+                <a className="white-text" href="#">Comentar</a>
             </div>
         </div>
     );
