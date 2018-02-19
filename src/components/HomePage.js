@@ -6,11 +6,6 @@ import { connect } from 'react-redux';
 import * as ReadebleAPI from '../utils/ReadebleAPI';
 
 class HomePage extends Component {
-
-    componentDidMount() {
-        //this.props.getAll();
-    }
-
     render() {
         const { loading, posts } = this.props;
 

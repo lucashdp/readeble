@@ -17,10 +17,9 @@ export function removePost ({ post }) {
   }
 }
 
-export function getAll ({ posts }) {
+export function getAll () {
   return {
-    type: GET_ALL,
-    posts
+    type: GET_ALL
   }
 }
 
