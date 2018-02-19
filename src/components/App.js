@@ -1,69 +1,38 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-// import { Button } from 'react-materialize';
-import { addPost, removePost } from '../actions';
-import Post from './Post';
-import PostModal from './PostModal';
-//import ReadebleFooter from './ReadebleFooter';
-import * as ReadebleAPI from '../utils/ReadebleAPI';
 import Loading from './Loading';
+import RoutesApp from './RoutesApp';
+import { Route } from 'react-router-dom'
+import { ConnectedRouter, routerMiddleware, routerReducer } from "react-router-redux";
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import createHistory from 'history/createBrowserHistory';
+import reducer from '../reducers';
 
-class App extends Component {
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-  state = {
-    posts: [],
-    categories: [],
-    loading: true
-  }
+const browserHistory = createHistory();
+const router = routerMiddleware(browserHistory);
 
-  componentDidMount() {
-    const getCategories = () => {
-      ReadebleAPI.getCategories()
-        .then(
-        (data) => { this.setState({ categories: data.categories, loading: false }) }
-        );
-    }
+const enhancers = composeEnhancers(
+  applyMiddleware(thunk),
+  applyMiddleware(router)
+);
 
-    ReadebleAPI.getAll()
-      .then(
-      (posts) => { (posts != undefined ? this.setState({ posts }) : ''); getCategories() }
-      );
-  }
+const store = createStore(
+  combineReducers({
+    ...reducer,
+    router: routerReducer
+  }),
+  enhancers
+)
 
-  render() {
-    const { doPost, removePost } = this.props
-    const { posts, loading } = this.state
-
-    return (
-      <div>
-        {!loading ? (
-          <div>
-            <Post posts={posts} />
-            <PostModal />
-          </div>
-        ) : ""}
-        {loading ? (
-          <Loading />
-        ) : ""}
-      </div>
-    );
-  }
+const App = () => {
+  return (
+    <Provider store={store}>
+      <RoutesApp browserHistory={browserHistory} />
+    </Provider>
+  );
 }
 
-function mapStateToProps({ post }) {
-  return {
-    post
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    doPost: (data) => dispatch(ReadebleAPI.doPost(data)),
-    removePost: (data) => dispatch(ReadebleAPI.removePost(data))
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App;
