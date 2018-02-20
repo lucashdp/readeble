@@ -4,14 +4,24 @@ import PostModal from './PostModal';
 import Loading from './Loading';
 import { connect } from 'react-redux';
 import * as ReadebleAPI from '../utils/ReadebleAPI';
+import { bindActionCreators } from "redux";
+import {
+    getAll, getCategories
+} from "../reducers";
 
 class HomePage extends Component {
+
+    componentDidMount() {
+        this.props.getAll();
+        this.props.getCategories();
+    }
+
     render() {
         const { loading, posts } = this.props;
 
         return (
             <div>
-                {/* {!loading ? (
+                {!loading ? (
                     <div>
                         <Post posts={posts} />
                         <PostModal />
@@ -19,26 +29,24 @@ class HomePage extends Component {
                 ) : ""}
                 {loading ? (
                     <Loading />
-                ) : ""} */}
+                ) : ""}
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        posts: state.posts,
-        loading: state.loading,
-        categories: state.categories
-    }
-}
+const mapStateToProps = (state) => ({
+    posts: state.reducer.posts,
+    loading: state.reducer.loading,
+    categories: state.reducer.categories
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getAll: () => dispatch(ReadebleAPI.getAll()),
-        getCategories: () => dispatch(ReadebleAPI.getCategories())
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        getAll,
+        getCategories
+    }, dispatch)
+};
 
 export default connect(
     mapStateToProps,

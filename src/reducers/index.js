@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import * as ReadebleAPI from '../utils/ReadebleAPI';
 
 import {
@@ -11,7 +10,7 @@ import {
 const initialState = { posts: [], categories: [], loading: true }
 
 function posts(state = initialState, action) {
-  const { post } = action
+  const { post, posts, categories } = action
 
   switch (action.type) {
     case ADD_POST:
@@ -27,16 +26,15 @@ function posts(state = initialState, action) {
         [post]: null
       }
     case GET_ALL:
-      GetAll();
       return {
         ...state,
-        posts: [...state.posts]
+        posts
       }
     case GET_CATEGORIES:
-      GetCategories();
       return {
         ...state,
-        categories: [...state.categories]
+        categories,
+        loading: false
       }
     default:
       return state
@@ -59,18 +57,22 @@ function RemovePost(post) {
     });
 }
 
-function GetAll(post) {
-  ReadebleAPI.getAll()
-    .then((posts) => {
-      this.props.dispatch({ type: GET_ALL, posts });
-    });
+export function getAll() {
+  return (dispatch) => {
+    ReadebleAPI.getAll()
+      .then((posts) => {
+        dispatch({ type: GET_ALL, posts });
+      });
+  };
 }
 
-function GetCategories(post) {
-  ReadebleAPI.getCategories(post)
+export function getCategories() {  
+  return (dispatch) => {
+  ReadebleAPI.getCategories()
     .then((categories) => {
-      this.props.dispatch({ type: GET_CATEGORIES, categories });
+      dispatch({ type: GET_CATEGORIES, categories });
     });
+  };
 }
 
 export default posts

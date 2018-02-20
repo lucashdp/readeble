@@ -1,7 +1,7 @@
-export const ADD_POST = 'ADD_POST'
-export const REMOVE_POST = 'REMOVE_POST'
-export const GET_ALL = 'GET_ALL'
-export const GET_CATEGORIES = 'GET_CATEGORIES'
+export const ADD_POST = 'ADD_POST';
+export const REMOVE_POST = 'REMOVE_POST';
+export const GET_ALL = 'GET_ALL';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
 
 export function addPost ( post ) {
   return {
@@ -25,7 +25,6 @@ export function getAll () {
 
 export function getCategories ({ categories }) {
   return {
-    type: GET_CATEGORIES,
-    categories
+    type: GET_CATEGORIES
   }
 }
