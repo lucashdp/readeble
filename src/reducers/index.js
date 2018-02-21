@@ -1,10 +1,16 @@
 import * as ReadebleAPI from '../utils/ReadebleAPI';
 
 import {
+  actionVoteScore,
+  actionGetAll,
+  actionGetCategories,
+  actionAddPost,
+  actionRemovePost,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
-  GET_CATEGORIES
+  GET_CATEGORIES,
+  ADD_VOTE_POST
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
@@ -36,6 +42,11 @@ function posts(state = initialState, action) {
         categories,
         loading: false
       }
+    case ADD_VOTE_POST:
+      return {
+        ...state,
+        posts: [...state.posts, post]
+      }
     default:
       return state
   }
@@ -44,15 +55,26 @@ function posts(state = initialState, action) {
 function AddPost(post) {
   ReadebleAPI.doPost(post)
     .then((post) => {
-      this.props.dispatch({ type: ADD_POST, post });
+      this.props.dispatch(actionAddPost(post));
       console.log('Posted successfully !!!!!!');
     });
+}
+
+export function votePost(post, option) {
+  return (dispatch) => {
+    ReadebleAPI.votePost(post, option)
+      .then((post) => {
+        const action = actionVoteScore(post, option);
+        dispatch(action);
+        console.log('Post voted successfully !!!!!!');
+      });
+  }
 }
 
 function RemovePost(post) {
   ReadebleAPI.removePost(post)
     .then((post) => {
-      this.props.dispatch({ type: REMOVE_POST, post });
+      this.props.dispatch(actionRemovePost(post));
       console.log('Post deleted successfully !!!!!!');
     });
 }
@@ -61,17 +83,19 @@ export function getAll() {
   return (dispatch) => {
     ReadebleAPI.getAll()
       .then((posts) => {
-        dispatch({ type: GET_ALL, posts });
+        const action = actionGetAll(posts);
+        dispatch(action);
       });
   };
 }
 
-export function getCategories() {  
+export function getCategories() {
   return (dispatch) => {
-  ReadebleAPI.getCategories()
-    .then((categories) => {
-      dispatch({ type: GET_CATEGORIES, categories });
-    });
+    ReadebleAPI.getCategories()
+      .then((categories) => {
+        const action = actionGetCategories(categories);
+        dispatch(action);
+      });
   };
 }
 
