@@ -7,12 +7,14 @@ import {
   actionAddPost,
   actionRemovePost,
   actionLoading,
+  actionGetComments,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
   GET_CATEGORIES,
   ADD_VOTE_POST,
-  LOADING
+  LOADING,
+  GET_COMMENTS
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
@@ -41,6 +43,12 @@ function posts(state = initialState, action) {
       return {
         ...state,
         categories
+      }
+    case GET_COMMENTS:
+      const { comments } = action;
+      return {
+        ...state,
+        comments
       }
     case LOADING:
       const { loading } = action;
@@ -127,6 +135,21 @@ export function getCategories() {
     ReadebleAPI.getCategories()
       .then((categories) => {
         const action = actionGetCategories(categories);
+        dispatch(action);
+        const actLoaded = actionLoading(false);
+        dispatch(actLoaded);
+      });
+  };
+}
+
+export function getComments() {
+  return (dispatch) => {
+    const actLoading = actionLoading(true);
+    dispatch(actLoading);
+
+    ReadebleAPI.getCategories()
+      .then((comments) => {
+        const action = actionGetComments(comments);
         dispatch(action);
         const actLoaded = actionLoading(false);
         dispatch(actLoaded);

@@ -4,6 +4,7 @@ export const GET_ALL = 'GET_ALL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_VOTE_POST = 'ADD_VOTE_POST';
 export const LOADING = 'LOADING';
+export const GET_COMMENTS = 'GET_COMMENTS';
 
 export function actionAddPost ( post ) {
   return {
@@ -45,5 +46,12 @@ export function actionLoading (loading) {
   return {
     type: LOADING,
     loading
+  }
+}
+
+export function actionGetComments (postId) {
+  return {
+    type: GET_COMMENTS,
+    postId
   }
 }

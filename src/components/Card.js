@@ -3,6 +3,7 @@ import { Button } from 'react-materialize';
 import DeletePostModal from './DeletePostModal';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
     votePost
 } from "../reducers";
@@ -21,7 +22,9 @@ class Card extends Component {
                         <Button className="white-text blue" onClick={() => { this.props.votePost(post, "upVote") }}>
                             Votar ({post.voteScore})
                         </Button>
-                        <a className="white-text" href="#">Comentar ({post.commentCount})</a>
+                        <Link className="white-text blue" to={'/comments/'+post.id}>
+                            Comentar ({post.commentCount})
+                        </Link>
                         <DeletePostModal postId={post.id} />
                     </div>
                 </div>

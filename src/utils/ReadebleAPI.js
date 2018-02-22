@@ -21,6 +21,10 @@ export const getCategories = () =>
     .then(response => response.json())
     .then(data => data.categories);
 
+export const getComments = (postId) =>
+  fetch(`${api}/´posts/${postId}/comments`, { method: 'GET', headers })
+    .then(response => response.json())
+    .then(data => data.comments);
 
 
 
@@ -35,7 +39,7 @@ export const doPost = (post) => {
 
 export const votePost = (post, option) => {
   const jsonOption = JSON.stringify({ option });
-  return fetch(`${api}/posts/${post.id}`, { method: 'POST', headers, body:jsonOption })
+  return fetch(`${api}/posts/${post.id}`, { method: 'POST', headers, body: jsonOption })
     .then(response => response.json());
 };
 
