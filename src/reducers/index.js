@@ -6,27 +6,27 @@ import {
   actionGetCategories,
   actionAddPost,
   actionRemovePost,
+  actionLoading,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
   GET_CATEGORIES,
-  ADD_VOTE_POST
+  ADD_VOTE_POST,
+  LOADING
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
 
 function posts(state = initialState, action) {
-  const { post, posts, categories } = action
+  const { post, posts } = action;
 
   switch (action.type) {
     case ADD_POST:
-      AddPost(post);
       return {
         ...state,
-        posts: [...state.posts, action.post]
+        posts: [...state.posts, post]
       }
     case REMOVE_POST:
-      const { post } = action
       return {
         ...state,
         [post]: null
@@ -37,20 +37,39 @@ function posts(state = initialState, action) {
         posts
       }
     case GET_CATEGORIES:
+      const { categories } = action;
       return {
         ...state,
-        categories,
-        loading: false
+        categories
+      }
+    case LOADING:
+      const { loading } = action;
+      return {
+        ...state,
+        loading
       }
     case ADD_VOTE_POST:
+      //const postsWithVoted = getPostsWithVoted(state.posts, action.post);
+      //let index = state.posts.findIndex(pt => pt.id === post.id)
+      //state.posts[index].voteScore = state.posts[index].voteScore++;
       return {
-        ...state,
-        posts: [...state.posts, post]
+        ...state
+        // [posts[action.post.id]]: {
+        //   ...state.posts[action.post.id],
+        //   [action.post.voteScore]: action.post.voteScore + 1
+        // },
       }
     default:
       return state
   }
 }
+
+// const getPostsWithVoted = (posts, postToVoteScore) => {
+//   return posts.map((pt) => {
+//     if (pt.id == postToVoteScore.id)
+//       pt.voteScore++;
+//   });
+// }
 
 function AddPost(post) {
   ReadebleAPI.doPost(post)
@@ -62,13 +81,27 @@ function AddPost(post) {
 
 export function votePost(post, option) {
   return (dispatch) => {
+    const actLoading = actionLoading(true);
+    dispatch(actLoading);
+
     ReadebleAPI.votePost(post, option)
       .then((post) => {
         const action = actionVoteScore(post, option);
         dispatch(action);
         console.log('Post voted successfully !!!!!!');
+        reload(dispatch);
       });
   }
+}
+
+function reload(dispatch) {
+  ReadebleAPI.getAll()
+    .then((posts) => {
+      const action = actionGetAll(posts);
+      dispatch(action);
+      const actLoaded = actionLoading(false);
+      dispatch(actLoaded);
+    });
 }
 
 function RemovePost(post) {
@@ -95,6 +128,8 @@ export function getCategories() {
       .then((categories) => {
         const action = actionGetCategories(categories);
         dispatch(action);
+        const actLoaded = actionLoading(false);
+        dispatch(actLoaded);
       });
   };
 }

@@ -35,9 +35,8 @@ export const doPost = (post) => {
 
 export const votePost = (post, option) => {
   const jsonOption = JSON.stringify({ option });
-  return fetch(`${api}/posts/${post.id}`, { method: 'POST', headers, jsonOption })
-    .then(response => response.json())
-    .then(data => data);
+  return fetch(`${api}/posts/${post.id}`, { method: 'POST', headers, body:jsonOption })
+    .then(response => response.json());
 };
 
 

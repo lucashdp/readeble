@@ -3,6 +3,7 @@ export const REMOVE_POST = 'REMOVE_POST';
 export const GET_ALL = 'GET_ALL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_VOTE_POST = 'ADD_VOTE_POST';
+export const LOADING = 'LOADING';
 
 export function actionAddPost ( post ) {
   return {
@@ -37,5 +38,12 @@ export function actionGetCategories (categories) {
   return {
     type: GET_CATEGORIES,
     categories
+  }
+}
+
+export function actionLoading (loading) {
+  return {
+    type: LOADING,
+    loading
   }
 }

@@ -10,20 +10,20 @@ import {
 } from "../reducers";
 
 class HomePage extends Component {
-
     componentDidMount() {
         this.props.getAll();
         this.props.getCategories();
+        console.log(this.props.categories);
     }
 
     render() {
-        const { loading, posts } = this.props;
+        const { loading, posts, categories } = this.props;
 
         return (
             <div>
                 {!loading ? (
                     <div>
-                        <Post posts={posts} />
+                        <Post posts={posts} categories={categories} />
                         <PostModal />
                     </div>
                 ) : ""}
