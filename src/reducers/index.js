@@ -97,19 +97,28 @@ export function votePost(post, option) {
         const action = actionVoteScore(post, option);
         dispatch(action);
         console.log('Post voted successfully !!!!!!');
-        reload(dispatch);
+        reload();
       });
   }
 }
 
-function reload(dispatch) {
-  ReadebleAPI.getAll()
-    .then((posts) => {
-      const action = actionGetAll(posts);
-      dispatch(action);
-      const actLoaded = actionLoading(false);
-      dispatch(actLoaded);
-    });
+export function voteComment(comment, option) {
+  return (dispatch) => {
+    const actLoading = actionLoading(true);
+    dispatch(actLoading);
+
+    ReadebleAPI.voteComment(comment, option)
+      .then((post) => {
+        const action = actionVoteScore(comment, option);
+        dispatch(action);
+        console.log('Comment voted successfully !!!!!!');
+        reload();
+      });
+  }
+}
+
+function reload() {
+  this.context.refresh()
 }
 
 function RemovePost(post) {
@@ -142,12 +151,12 @@ export function getCategories() {
   };
 }
 
-export function getComments() {
+export function getComments(postId) {
   return (dispatch) => {
     const actLoading = actionLoading(true);
     dispatch(actLoading);
 
-    ReadebleAPI.getCategories()
+    ReadebleAPI.getComments(postId)
       .then((comments) => {
         const action = actionGetComments(comments);
         dispatch(action);

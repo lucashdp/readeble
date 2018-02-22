@@ -49,9 +49,9 @@ export function actionLoading (loading) {
   }
 }
 
-export function actionGetComments (postId) {
+export function actionGetComments (comments) {
   return {
     type: GET_COMMENTS,
-    postId
+    comments
   }
 }

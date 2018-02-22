@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Post from './Post';
 import PostModal from './PostModal';
+import Comment from './Comment';
 import Loading from './Loading';
 import { connect } from 'react-redux';
 import * as ReadebleAPI from '../utils/ReadebleAPI';
@@ -21,8 +22,8 @@ class CommentPage extends Component {
             <div>
                 {!loading ? (
                     <div>
-                        {/* <Comment comments={comments}/>
-                        <CommentModal /> */}
+                        <Comment comments={comments}/>
+                        {/* <CommentModal /> */}
                     </div>
                 ) : ""}
                 {loading ? (

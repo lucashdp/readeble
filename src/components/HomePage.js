@@ -13,6 +13,7 @@ class HomePage extends Component {
     componentDidMount() {
         this.props.getAll();
         this.props.getCategories();
+        console.log(this.props.categories);
     }
 
     render() {

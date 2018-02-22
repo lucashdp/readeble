@@ -1,36 +1,57 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
-import DeletePostModal from './DeletePostModal';
+import DeleteModal from './DeleteModal';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-    votePost
+    votePost,
+    voteComment
 } from "../reducers";
 
 class Card extends Component {
     render() {
         const { post } = this.props;
+        let element;
+
+        if (post)
+            element = post;
+        else
+            element = this.props.comment;
+
         return (
             <div>
                 <div class="card blue darken-1">
                     <div class="card-content white-text">
-                        <span class="card-title">{post.title}</span>
-                        <p>{post.body}</p>
+                        <span class="card-title">{element.title}</span>
+                        <p>{element.body}</p>
                     </div>
                     <div class="card-action">
-                        <Button className="white-text blue" onClick={() => { this.props.votePost(post, "upVote") }}>
-                            Votar ({post.voteScore})
+                        <Button className="white-text blue" onClick={() => { doVote(post, element) }}>
+                            Votar ({element.voteScore})
                         </Button>
-                        <Link className="white-text blue" to={'/comments/'+post.id}>
-                            Comentar ({post.commentCount})
-                        </Link>
-                        <DeletePostModal postId={post.id} />
+                        {post ? (
+                            <div>
+                                <Link className="white-text blue" to={'/comments/' + post.id}>
+                                    Comentar ({post.commentCount})
+                                </Link>
+                                <DeleteModal postId={post.id} />
+                            </div>
+                        ) :
+                            <DeleteModal commentId={element.id} />
+                        }
                     </div>
                 </div>
             </div>
         );
     }
+}
+
+const doVote = (post, element) => {
+    if (post)
+        return (this.props.votePost(post, "upVote"));
+    else
+        return (this.props.voteComment(element, "upVote"));
 }
 
 const mapStateToProps = (state) => ({
@@ -41,7 +62,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        votePost
+        votePost,
+        voteComment
     }, dispatch)
 };
 

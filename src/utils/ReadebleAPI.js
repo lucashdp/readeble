@@ -22,9 +22,9 @@ export const getCategories = () =>
     .then(data => data.categories);
 
 export const getComments = (postId) =>
-  fetch(`${api}/´posts/${postId}/comments`, { method: 'GET', headers })
+  fetch(`${api}/posts/${postId}/comments`, { method: 'GET', headers })
     .then(response => response.json())
-    .then(data => data.comments);
+    .then(data => data);
 
 
 
@@ -40,6 +40,12 @@ export const doPost = (post) => {
 export const votePost = (post, option) => {
   const jsonOption = JSON.stringify({ option });
   return fetch(`${api}/posts/${post.id}`, { method: 'POST', headers, body: jsonOption })
+    .then(response => response.json());
+};
+
+export const voteComment = (comment, option) => {
+  const jsonOption = JSON.stringify({ option });
+  return fetch(`${api}/comments/${comment.id}`, { method: 'POST', headers, body: jsonOption })
     .then(response => response.json());
 };
 
