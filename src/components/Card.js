@@ -11,47 +11,59 @@ import {
 
 class Card extends Component {
     render() {
-        const { post } = this.props;
-        let element;
-
-        if (post)
-            element = post;
-        else
-            element = this.props.comment;
+        const { post, comment } = this.props;
 
         return (
             <div>
                 <div class="card blue darken-1">
-                    <div class="card-content white-text">
-                        <span class="card-title">{element.title}</span>
-                        <p>{element.body}</p>
-                    </div>
                     <div class="card-action">
-                        <Button className="white-text blue" onClick={() => { doVote(post, element) }}>
-                            Votar ({element.voteScore})
-                        </Button>
                         {post ? (
                             <div>
+                                <div class="card-content white-text">
+                                    <span class="card-title">{post.title}</span>
+                                    <p>{post.body}</p>
+                                </div>
+                                <Button className="white-text blue"
+                                    onClick={() => { this.props.votePost(post, "upVote") }}>
+                                    <i class="material-icons">&#xE5CE;</i>
+                                </Button>
+                                <Button className="white-text blue"
+                                    onClick={() => { this.props.votePost(post, "downVote") }}>
+                                    <i class="material-icons">&#xE5CF;</i>
+                                </Button>
+                                <h5 className="white-text">
+                                    Votar ({post.voteScore})
+                                </h5>
                                 <Link className="white-text blue" to={'/comments/' + post.id}>
                                     Comentar ({post.commentCount})
                                 </Link>
                                 <DeleteModal postId={post.id} />
                             </div>
                         ) :
-                            <DeleteModal commentId={element.id} />
+                            <div>
+                                <div class="card-content white-text">
+                                    <span class="card-title">{comment.title}</span>
+                                    <p>{comment.body}</p>
+                                </div>
+                                <Button className="white-text blue"
+                                    onClick={() => { this.props.voteComment(comment, "upVote") }}>
+                                    <i class="material-icons">&#xE5CE;</i>
+                                </Button>
+                                <Button className="white-text blue"
+                                    onClick={() => { this.props.voteComment(comment, "downVote") }}>
+                                    <i class="material-icons">&#xE5CF;</i>
+                                </Button>
+                                <h5 className="white-text">
+                                    Vote ({comment.voteScore})
+                            </h5>
+                                <DeleteModal commentId={comment.id} />
+                            </div>
                         }
                     </div>
                 </div>
             </div>
         );
     }
-}
-
-const doVote = (post, element) => {
-    if (post)
-        return (this.props.votePost(post, "upVote"));
-    else
-        return (this.props.voteComment(element, "upVote"));
 }
 
 const mapStateToProps = (state) => ({

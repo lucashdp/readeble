@@ -57,27 +57,17 @@ function posts(state = initialState, action) {
         loading
       }
     case ADD_VOTE_POST:
-      //const postsWithVoted = getPostsWithVoted(state.posts, action.post);
-      //let index = state.posts.findIndex(pt => pt.id === post.id)
-      //state.posts[index].voteScore = state.posts[index].voteScore++;
       return {
-        ...state
-        // [posts[action.post.id]]: {
-        //   ...state.posts[action.post.id],
-        //   [action.post.voteScore]: action.post.voteScore + 1
-        // },
+        ...state,
+        ...state.posts.map((pt) => {
+          if (pt.id === post.id)
+            pt.voteScore = post.voteScore
+        })
       }
     default:
       return state
   }
 }
-
-// const getPostsWithVoted = (posts, postToVoteScore) => {
-//   return posts.map((pt) => {
-//     if (pt.id == postToVoteScore.id)
-//       pt.voteScore++;
-//   });
-// }
 
 function AddPost(post) {
   ReadebleAPI.doPost(post)
@@ -89,36 +79,35 @@ function AddPost(post) {
 
 export function votePost(post, option) {
   return (dispatch) => {
-    const actLoading = actionLoading(true);
-    dispatch(actLoading);
+    reload(true, dispatch);
 
     ReadebleAPI.votePost(post, option)
       .then((post) => {
         const action = actionVoteScore(post, option);
         dispatch(action);
         console.log('Post voted successfully !!!!!!');
-        reload();
+        reload(false, dispatch);
       });
   }
 }
 
 export function voteComment(comment, option) {
   return (dispatch) => {
-    const actLoading = actionLoading(true);
-    dispatch(actLoading);
+    reload(true, dispatch);
 
     ReadebleAPI.voteComment(comment, option)
       .then((post) => {
         const action = actionVoteScore(comment, option);
         dispatch(action);
         console.log('Comment voted successfully !!!!!!');
-        reload();
+        reload(false, dispatch);
       });
   }
 }
 
-function reload() {
-  this.context.refresh()
+function reload(loading, dispatch) {
+  const actLoading = actionLoading(loading);
+  dispatch(actLoading);
 }
 
 function RemovePost(post) {
