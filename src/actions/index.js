@@ -5,6 +5,7 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_VOTE_POST = 'ADD_VOTE_POST';
 export const LOADING = 'LOADING';
 export const GET_COMMENTS = 'GET_COMMENTS';
+export const ADD_VOTE_COMMENT = 'ADD_VOTE_COMMENT';
 
 export function actionAddPost ( post ) {
   return {
@@ -13,10 +14,18 @@ export function actionAddPost ( post ) {
   }
 }
 
-export function actionVoteScore ( post, option ) {
+export function actionVotePost ( post, option ) {
   return {
     type: ADD_VOTE_POST,
     post,
+    option
+  }
+}
+
+export function actionVoteComment ( comment, option ) {
+  return {
+    type: ADD_VOTE_COMMENT,
+    comment,
     option
   }
 }

@@ -4,7 +4,6 @@ import PostModal from './PostModal';
 import Comment from './Comment';
 import Loading from './Loading';
 import { connect } from 'react-redux';
-import * as ReadebleAPI from '../utils/ReadebleAPI';
 import { bindActionCreators } from "redux";
 import {
     getComments

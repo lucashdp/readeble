@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-materialize';
+import { Button, Modal, Icon } from 'react-materialize';
 import FormPost from './FormPost'
 
 export default function PostModal({ post, categories }) {
     return (
         <div>
             <Modal
-                header='Novo Post'
+                header='New Post'
                 id="modalPost"
-                actions={<Button className="blue" modal="close">Fechar</Button>}
+                actions=
+                {<div>
+                    <Button className="blue" modal="close">Send<Icon left>send</Icon></Button>
+                    <Button modal="close">Close</Button>
+                </div>}
                 trigger={<Button floating large className='blue right-absolute' waves='light' icon='+' />}>
-                <FormPost post={post} categories={categories}/>
+                <FormPost post={post} />
             </Modal>
         </div>
     );

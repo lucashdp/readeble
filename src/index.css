@@ -171,7 +171,13 @@ textarea:focus{
 .p-10 {
   padding-top: 10%
 }
+.pl-5 {
+  padding-left: 5%
+}
 .blue
 {
   background: #0051a2;
+}
+.label-big {
+  font-size: 2rem
 }

@@ -23,8 +23,8 @@ class HomePage extends Component {
             <div>
                 {!loading ? (
                     <div>
-                        <Post posts={posts} categories={categories} />
-                        <PostModal />
+                        <Post posts={posts} />
+                        <PostModal categories={categories} />
                     </div>
                 ) : ""}
                 {loading ? (

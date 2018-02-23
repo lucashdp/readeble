@@ -1,20 +1,22 @@
 import * as ReadebleAPI from '../utils/ReadebleAPI';
 
 import {
-  actionVoteScore,
+  actionVotePost,
   actionGetAll,
   actionGetCategories,
   actionAddPost,
   actionRemovePost,
   actionLoading,
   actionGetComments,
+  actionVoteComment,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
   GET_CATEGORIES,
   ADD_VOTE_POST,
   LOADING,
-  GET_COMMENTS
+  GET_COMMENTS,
+  ADD_VOTE_COMMENT
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
@@ -64,12 +66,21 @@ function posts(state = initialState, action) {
             pt.voteScore = post.voteScore
         })
       }
+    case ADD_VOTE_COMMENT:
+    const { comment } = action;
+      return {
+        ...state,
+        ...state.comments.map((cmt) => {
+          if (cmt.id === comment.id)
+            cmt.voteScore = comment.voteScore
+        })
+      }
     default:
       return state
   }
 }
 
-function AddPost(post) {
+export function sendPost(post) {
   ReadebleAPI.doPost(post)
     .then((post) => {
       this.props.dispatch(actionAddPost(post));
@@ -83,7 +94,7 @@ export function votePost(post, option) {
 
     ReadebleAPI.votePost(post, option)
       .then((post) => {
-        const action = actionVoteScore(post, option);
+        const action = actionVotePost(post, option);
         dispatch(action);
         console.log('Post voted successfully !!!!!!');
         reload(false, dispatch);
@@ -96,8 +107,8 @@ export function voteComment(comment, option) {
     reload(true, dispatch);
 
     ReadebleAPI.voteComment(comment, option)
-      .then((post) => {
-        const action = actionVoteScore(comment, option);
+      .then((comment) => {
+        const action = actionVoteComment(comment, option);
         dispatch(action);
         console.log('Comment voted successfully !!!!!!');
         reload(false, dispatch);
