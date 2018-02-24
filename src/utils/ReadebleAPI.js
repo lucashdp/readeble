@@ -26,6 +26,10 @@ export const getComments = (postId) =>
     .then(response => response.json())
     .then(data => data);
 
+export const getAllByCategory = (category) =>
+  fetch(`${api}/${category}/posts`, { method: 'GET', headers })
+    .then(response => response.json())
+    .then(data => data);
 
 
 

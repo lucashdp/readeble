@@ -9,6 +9,7 @@ import {
   actionLoading,
   actionGetComments,
   actionVoteComment,
+  actionGetAlByCategory,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -16,7 +17,8 @@ import {
   ADD_VOTE_POST,
   LOADING,
   GET_COMMENTS,
-  ADD_VOTE_COMMENT
+  ADD_VOTE_COMMENT,
+  GET_ALL_BY_CATEGORY
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
@@ -67,13 +69,18 @@ function posts(state = initialState, action) {
         })
       }
     case ADD_VOTE_COMMENT:
-    const { comment } = action;
+      const { comment } = action;
       return {
         ...state,
         ...state.comments.map((cmt) => {
           if (cmt.id === comment.id)
             cmt.voteScore = comment.voteScore
         })
+      }
+    case GET_ALL_BY_CATEGORY:
+      return {
+        ...state,
+        posts
       }
     default:
       return state
@@ -139,29 +146,40 @@ export function getAll() {
   };
 }
 
+export function getAllByCategory(categoryId) {
+  return (dispatch) => {
+    reload(true, dispatch);
+  
+    ReadebleAPI.getAllByCategory(categoryId)
+      .then((posts) => {
+        const action = actionGetAlByCategory(posts);
+        dispatch(action);
+      });
+  };
+}
+
 export function getCategories() {
   return (dispatch) => {
     ReadebleAPI.getCategories()
       .then((categories) => {
         const action = actionGetCategories(categories);
         dispatch(action);
-        const actLoaded = actionLoading(false);
-        dispatch(actLoaded);
+        
+        reload(false, dispatch);   
       });
   };
 }
 
 export function getComments(postId) {
   return (dispatch) => {
-    const actLoading = actionLoading(true);
-    dispatch(actLoading);
+    reload(true, dispatch);   
 
     ReadebleAPI.getComments(postId)
       .then((comments) => {
         const action = actionGetComments(comments);
         dispatch(action);
-        const actLoaded = actionLoading(false);
-        dispatch(actLoaded);
+
+        reload(false, dispatch);   
       });
   };
 }

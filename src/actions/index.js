@@ -6,6 +6,7 @@ export const ADD_VOTE_POST = 'ADD_VOTE_POST';
 export const LOADING = 'LOADING';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const ADD_VOTE_COMMENT = 'ADD_VOTE_COMMENT';
+export const GET_ALL_BY_CATEGORY = 'GET_ALL_BY_CATEGORY';
 
 export function actionAddPost ( post ) {
   return {
@@ -62,5 +63,12 @@ export function actionGetComments (comments) {
   return {
     type: GET_COMMENTS,
     comments
+  }
+}
+
+export function actionGetAlByCategory (posts) {
+  return {
+    type: GET_ALL_BY_CATEGORY,
+    posts
   }
 }

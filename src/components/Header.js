@@ -7,31 +7,27 @@ import * as ReadebleAPI from '../utils/ReadebleAPI';
 import { bindActionCreators } from "redux";
 import { Navbar, NavItem } from 'react-materialize';
 import {
-    getAll, getCategories, getAllByCategory
+    getCategories
 } from "../reducers";
 
-class HomePage extends Component {
+class Header extends Component {
     componentDidMount() {
-        if (!this.props.byCategory)
-            this.props.getAll();
-        else
-            this.props.getAllByCategory(this.props.path);
         this.props.getCategories();
     }
 
     render() {
-        const { loading, posts, categories } = this.props;
+        const { loading, categories } = this.props;
 
         return (
             <div>
                 {!loading ? (
-                    <div>
-                        <Post posts={posts} />
-                        <PostModal categories={categories} />
-                    </div>
-                ) : ""}
-                {loading ? (
-                    <Loading />
+                    <Navbar className="blue" left>
+                        <NavItem href='/'><i class="material-icons">&#xE88A;</i></NavItem>
+                        {(categories != undefined && categories.length > 0) ?
+                            categories.map((category) => (
+                                <NavItem href={'/' + category.path}>{category.name}</NavItem>
+                            )) : ""}
+                    </Navbar>
                 ) : ""}
             </div>
         );
@@ -39,21 +35,16 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    posts: state.reducer.posts,
-    loading: state.reducer.loading,
-    categories: state.reducer.categories,
-    path: state.router.location.pathname.substring(1)
+    categories: state.reducer.categories
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        getAll,
-        getCategories,
-        getAllByCategory
+        getCategories
     }, dispatch)
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(HomePage)
+)(Header)
