@@ -203,7 +203,7 @@ export function updatePost(post) {
   return (dispatch) => {
     reload(true, dispatch);
 
-    ReadebleAPI.doPost(post)
+    ReadebleAPI.updatePost(post)
       .then(() => {
         dispatch(actionUpdatePost(post));
         console.log('Post updated successfully !!!!!!');

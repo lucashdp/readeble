@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import uuid from 'uuid';
 import {
-    sendPost
+    sendPost,
+    updatePost
 } from "../reducers";
 
 class FormPost extends Component {
@@ -12,6 +13,7 @@ class FormPost extends Component {
         super(props);
         this.state =
             {
+                post: props.post,
                 author: props.post ? props.post.author : '',
                 category: props.post ? props.post.category : 'react',
                 title: props.post ? props.post.title : '',
@@ -37,35 +39,51 @@ class FormPost extends Component {
 
     handleSubmit() {
 
-        const { author, body, category, title, voteScore, commentCount } = this.state;
+        const { post, author, body, category, title, voteScore, commentCount } = this.state;
+        if (post !== undefined && post.id !== undefined) {
 
-        const post = {
-            id: uuid(),
-            author,
-            body,
-            category,
-            title,
-            timestamp: Date.now(),
-            voteScore,
-            commentCount
+            const postEdit = {
+                id: post.id,
+                author,
+                body,
+                category,
+                title,
+                timestamp: Date.now(),
+                voteScore: post.voteScore,
+                commentCount: post.commentCount
+            }
+
+            this.props.updatePost(postEdit);
+        } else {
+
+            const newPost = {
+                id: uuid(),
+                author,
+                body,
+                category,
+                title,
+                timestamp: Date.now(),
+                voteScore,
+                commentCount
+            }
+
+            this.props.sendPost(newPost);
         }
-
-        this.props.sendPost(post);
     }
 
     render() {
         const { post, categories } = this.props;
 
         return (
-            <form onSubmit={this.handleSubmit} id="modalForm">
+            <form onSubmit={this.handleSubmit} id={post !== undefined ? 'formEdit'+post.id : 'formNew'}>
                 <Row>
-                    <Input s={12} label="Author" validate name="author" value={this.state.author}
+                    <Input s={12} label="Author" require name="author" value={this.state.author}
                         onChange={this.handleChange}>
                         <Icon>account_circle</Icon>
                     </Input>
                 </Row>
                 <Row>
-                    <Input s={12} type='select' label="Category" defaultValue='1' name="category"
+                    <Input s={12} type='select' label="Category" name="category" value={this.state.category}
                         onChange={this.handleChange}>
                         {(categories != undefined && categories.length > 0) ?
                             categories.map((category) => (
@@ -74,14 +92,15 @@ class FormPost extends Component {
                     </Input>
                 </Row>
                 <Row>
-                    <Input s={12} label="Title" validate name="title" onChange={this.handleChange}>
+                    <Input s={12} label="Title" require name="title" value={this.state.title}
+                        onChange={this.handleChange}>
                         <Icon>title</Icon>
                     </Input>
                 </Row>
                 <Row>
-                    <Input s={12} label="Post" validate name="body" onChange={this.handleChange}>
-                        <Icon>tos</Icon>
-                    </Input>
+                    <label for="body"><Icon>tos</Icon>Post</label>
+                    <textarea id="body" class="materialize-textarea" s={12} require name="body" value={this.state.body}
+                        onChange={this.handleChange}></textarea>
                 </Row>
             </form>
         );
@@ -94,7 +113,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        sendPost
+        sendPost,
+        updatePost
     }, dispatch)
 };
 

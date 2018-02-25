@@ -8,10 +8,10 @@ export default function PostModal({ post, categories }) {
             {(post !== undefined && post.id !== undefined) ?
                 <Modal
                     header='Edit Post'
-                    id="modalEditPost"
+                    id={'modalEdit'+post.id}
                     actions=
                     {<div>
-                        <Button className="blue" type="submit" form="modalForm" modal="close">Send
+                        <Button className="blue" type="submit" form={'formEdit'+post.id} modal="close">Send
                             <Icon left>send</Icon>
                         </Button>
                         <Button modal="close">Close</Button>
@@ -27,12 +27,12 @@ export default function PostModal({ post, categories }) {
                     id="modalPost"
                     actions=
                     {<div>
-                        <Button className="blue" type="submit" form="modalForm" modal="close">Send
+                        <Button className="blue" type="submit" form="formNew" modal="close">Send
                             <Icon left>send</Icon>
                         </Button>
                         <Button modal="close">Close</Button>
                     </div>}
-                    trigger={<Button floating large className='blue right-absolute' waves='light' icon='+' />}>
+                    trigger={<Button floating large className='blue right-absolute' waves='light' icon='add' />}>
                     <FormPost categories={categories} />
                 </Modal>
             }
