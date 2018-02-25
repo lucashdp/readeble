@@ -10,6 +10,7 @@ import {
   actionGetComments,
   actionVoteComment,
   actionGetAlByCategory,
+  actionUpdatePost,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -18,12 +19,13 @@ import {
   LOADING,
   GET_COMMENTS,
   ADD_VOTE_COMMENT,
-  GET_ALL_BY_CATEGORY
+  GET_ALL_BY_CATEGORY,
+  UPDATE_POST
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true }
 
-function posts(state = initialState, action) {
+export default function posts(state = initialState, action) {
   const { post, posts } = action;
 
   switch (action.type) {
@@ -82,17 +84,30 @@ function posts(state = initialState, action) {
         ...state,
         posts
       }
+    case UPDATE_POST:
+      return {
+        ...state,
+        ...state.posts.map((pt) => {
+          if (pt.id === post.id)
+            pt = post
+        })
+      }
     default:
       return state
   }
 }
 
 export function sendPost(post) {
-  ReadebleAPI.doPost(post)
-    .then((post) => {
-      this.props.dispatch(actionAddPost(post));
-      console.log('Posted successfully !!!!!!');
-    });
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.doPost(post)
+      .then(() => {
+        dispatch(actionAddPost(post));
+        console.log('Posted successfully !!!!!!');
+        reload(false, dispatch);
+      });
+  }
 }
 
 export function votePost(post, option) {
@@ -149,7 +164,7 @@ export function getAll() {
 export function getAllByCategory(categoryId) {
   return (dispatch) => {
     reload(true, dispatch);
-  
+
     ReadebleAPI.getAllByCategory(categoryId)
       .then((posts) => {
         const action = actionGetAlByCategory(posts);
@@ -164,24 +179,35 @@ export function getCategories() {
       .then((categories) => {
         const action = actionGetCategories(categories);
         dispatch(action);
-        
-        reload(false, dispatch);   
+
+        reload(false, dispatch);
       });
   };
 }
 
 export function getComments(postId) {
   return (dispatch) => {
-    reload(true, dispatch);   
+    reload(true, dispatch);
 
     ReadebleAPI.getComments(postId)
       .then((comments) => {
         const action = actionGetComments(comments);
         dispatch(action);
 
-        reload(false, dispatch);   
+        reload(false, dispatch);
       });
   };
 }
 
-export default posts
+export function updatePost(post) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.doPost(post)
+      .then(() => {
+        dispatch(actionUpdatePost(post));
+        console.log('Post updated successfully !!!!!!');
+        reload(false, dispatch);
+      });
+  }
+}

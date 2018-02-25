@@ -37,7 +37,14 @@ export const getAllByCategory = (category) =>
 
 /* --------------------------------------REGION POST-------------------------------------------------- */
 export const doPost = (post) => {
-  return fetch(`${api}/posts/`, { method: 'POST', headers, post })
+  const jsonPost = JSON.stringify(post);
+  return fetch(`${api}/posts/`, { method: 'POST', headers, body: jsonPost })
+    .then(response => response.json());
+};
+
+export const updatePost = (post) => {
+  const jsonPost = JSON.stringify(post);
+  return fetch(`${api}/posts/${post.id}`, { method: 'PUT', headers, body: jsonPost })
     .then(response => response.json());
 };
 
