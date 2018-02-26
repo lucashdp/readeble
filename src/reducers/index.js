@@ -88,8 +88,12 @@ export default function posts(state = initialState, action) {
       return {
         ...state,
         ...state.posts.map((pt) => {
-          if (pt.id === post.id)
-            pt = post
+          if (pt.id === post.id){
+            pt.author = post.author;
+            pt.category = post.category;
+            pt.title = post.title;
+            pt.body = post.body;
+          }
         })
       }
     default:
