@@ -77,7 +77,7 @@ class FormPost extends Component {
         return (
             <form onSubmit={this.handleSubmit} id={post !== undefined ? 'formEdit'+post.id : 'formNew'}>
                 <Row>
-                    <Input s={12} label="Author" require name="author" value={this.state.author}
+                    <Input s={12} label="Author" required name="author" value={this.state.author}
                         onChange={this.handleChange}>
                         <Icon>account_circle</Icon>
                     </Input>
@@ -92,14 +92,14 @@ class FormPost extends Component {
                     </Input>
                 </Row>
                 <Row>
-                    <Input s={12} label="Title" require name="title" value={this.state.title}
+                    <Input s={12} label="Title" required name="title" value={this.state.title}
                         onChange={this.handleChange}>
                         <Icon>title</Icon>
                     </Input>
                 </Row>
                 <Row>
                     <label for="body"><Icon>tos</Icon>Post</label>
-                    <textarea id="body" class="materialize-textarea" s={12} require name="body" value={this.state.body}
+                    <textarea id="body" class="materialize-textarea" s={12} required name="body" value={this.state.body}
                         onChange={this.handleChange}></textarea>
                 </Row>
             </form>

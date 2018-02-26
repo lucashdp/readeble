@@ -8,6 +8,8 @@ export const GET_COMMENTS = 'GET_COMMENTS';
 export const ADD_VOTE_COMMENT = 'ADD_VOTE_COMMENT';
 export const GET_ALL_BY_CATEGORY = 'GET_ALL_BY_CATEGORY';
 export const UPDATE_POST = 'UPDATE_POST';
+export const MODAL_NEW_POST = 'MODAL_NEW_POST';
+export const MODAL_EDIT_POST = 'MODAL_EDIT_POST';
 
 export function actionAddPost ( post ) {
   return {
@@ -78,5 +80,20 @@ export function actionUpdatePost ( post ) {
   return {
     type: UPDATE_POST,
     post
+  }
+}
+
+export function actionModalNewPost (showingNewModal) {
+  return {
+    type: MODAL_NEW_POST,
+    showingNewModal
+  }
+}
+
+export function actionModalEditPost (post, showingAnyPostToEdit) {
+  return {
+    type: MODAL_EDIT_POST,
+    post,
+    showingAnyPostToEdit
   }
 }
