@@ -5,9 +5,9 @@ import Loading from './Loading';
 import { connect } from 'react-redux';
 import * as ReadebleAPI from '../utils/ReadebleAPI';
 import { bindActionCreators } from "redux";
-import { Navbar, NavItem } from 'react-materialize';
+import { Navbar, NavItem, Dropdown, Button } from 'react-materialize';
 import {
-    getCategories
+    getCategories, orderByVotes
 } from "../reducers";
 
 class Header extends Component {
@@ -16,18 +16,23 @@ class Header extends Component {
     }
 
     render() {
-        const { loading, categories } = this.props;
+        const { loading, categories, orderByVotes } = this.props;
 
         return (
             <div>
                 {!loading ? (
-                    <Navbar className="blue" left>
-                        <NavItem href='/'><i class="material-icons">&#xE88A;</i></NavItem>
-                        {(categories != undefined && categories.length > 0) ?
-                            categories.map((category) => (
-                                <NavItem href={'/' + category.path}>{category.name}</NavItem>
-                            )) : ""}
-                    </Navbar>
+                    <div>
+                        <Navbar className="blue" left>
+                            <NavItem href='/'><i className="material-icons">&#xE88A;</i></NavItem>
+                            {(categories != undefined && categories.length > 0) ?
+                                categories.map((category) => (
+                                    <NavItem href={'/' + category.path}>{category.name}</NavItem>
+                                )) : ""}
+                            <Button className="white-text blue right" onClick={() => { orderByVotes() }}>
+                                <i className="material-icons right">&#xE152;</i>Order By Votes
+                            </Button>
+                        </Navbar>
+                    </div>
                 ) : ""}
             </div>
         );
@@ -40,7 +45,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        getCategories
+        getCategories,
+        orderByVotes
     }, dispatch)
 };
 

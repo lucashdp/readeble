@@ -15,6 +15,7 @@ import {
   actionModalEditPost,
   actionDeletePost,
   actionModalDeletePost,
+  actionOrderByVotes,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -28,7 +29,8 @@ import {
   MODAL_NEW_POST,
   MODAL_EDIT_POST,
   DELETE_POST,
-  MODAL_DELETE_POST
+  MODAL_DELETE_POST,
+  ORDER_BY_POSTS
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true, showingNewModal: false, showingAnyPostToDelete: false, showingAnyPostToEdit: false }
@@ -141,6 +143,13 @@ export default function posts(state = initialState, action) {
           }
         })
       }
+    case ORDER_BY_POSTS:
+      return {
+        ...state,
+        ...state.posts.sort((a, b) => {
+          return a.voteScore - b.voteScore;
+        })
+      }
     default:
       return state
   }
@@ -212,6 +221,17 @@ export function modalDeletePost(post, showing) {
     const showingAnyPostToDelete = showing;
     const actModal = actionModalDeletePost(post, showingAnyPostToDelete);
     dispatch(actModal);
+  }
+}
+
+export function orderByVotes() {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    const action = actionOrderByVotes();
+    dispatch(action);
+    
+    reload(false, dispatch);
   }
 }
 

@@ -12,6 +12,7 @@ export const MODAL_NEW_POST = 'MODAL_NEW_POST';
 export const MODAL_EDIT_POST = 'MODAL_EDIT_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const MODAL_DELETE_POST = 'MODAL_DELETE_POST';
+export const ORDER_BY_POSTS = 'ORDER_BY_POSTS';
 
 export function actionAddPost ( post ) {
   return {
@@ -112,5 +113,11 @@ export function actionModalDeletePost (post, showingAnyPostToDelete) {
     type: MODAL_DELETE_POST,
     post,
     showingAnyPostToDelete
+  }
+}
+
+export function actionOrderByVotes () {
+  return {
+    type: ORDER_BY_POSTS
   }
 }
