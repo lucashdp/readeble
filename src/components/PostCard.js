@@ -31,6 +31,7 @@ class PostCard extends Component {
                         {post.commentCount} Comments
                     </Link>
                     <PostModal post={post} categories={categories} />
+                    <DeleteModal post={post} />
                 </Row>
             </div>
         );

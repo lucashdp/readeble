@@ -13,6 +13,8 @@ import {
   actionUpdatePost,
   actionModalNewPost,
   actionModalEditPost,
+  actionDeletePost,
+  actionModalDeletePost,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -24,10 +26,12 @@ import {
   GET_ALL_BY_CATEGORY,
   UPDATE_POST,
   MODAL_NEW_POST,
-  MODAL_EDIT_POST
+  MODAL_EDIT_POST,
+  DELETE_POST,
+  MODAL_DELETE_POST
 } from '../actions'
 
-const initialState = { posts: [], categories: [], loading: true, showingNewModal: false }
+const initialState = { posts: [], categories: [], loading: true, showingNewModal: false, showingAnyPostToDelete: false, showingAnyPostToEdit: false }
 
 export default function posts(state = initialState, action) {
   const { post, posts } = action;
@@ -92,6 +96,7 @@ export default function posts(state = initialState, action) {
     case UPDATE_POST:
       return {
         ...state,
+        showingAnyPostToEdit: false,
         ...state.posts.map((pt) => {
           if (pt.id === post.id) {
             pt.author = post.author;
@@ -101,6 +106,12 @@ export default function posts(state = initialState, action) {
             pt.showingEditModal = false;
           }
         })
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((pt) => pt.id !== post.id),
+        showingAnyPostToDelete: false
       }
     case MODAL_NEW_POST:
       const { showingNewModal } = action;
@@ -112,10 +123,21 @@ export default function posts(state = initialState, action) {
       const { showingAnyPostToEdit } = action;
       return {
         ...state,
-        showingAnyPostToEdit: showingAnyPostToEdit,
+        showingAnyPostToEdit,
         ...state.posts.map((pt) => {
           if (pt.id === post.id) {
             pt.showingEditModal = post.showingEditModal
+          }
+        })
+      }
+    case MODAL_DELETE_POST:
+      const { showingAnyPostToDelete } = action;
+      return {
+        ...state,
+        showingAnyPostToDelete,
+        ...state.posts.map((pt) => {
+          if (pt.id === post.id) {
+            pt.showingDeleteModal = post.showingDeleteModal
           }
         })
       }
@@ -174,7 +196,8 @@ export function modal(post, showing) {
   return (dispatch) => {
     if (post !== undefined) {
       post.showingEditModal = showing;
-      const actModal = actionModalEditPost(post, {showingAnyPostToEdit: showing});
+      const showingAnyPostToEdit = showing;
+      const actModal = actionModalEditPost(post, showingAnyPostToEdit);
       dispatch(actModal);
     } else {
       const actModal = actionModalNewPost(showing);
@@ -183,12 +206,29 @@ export function modal(post, showing) {
   }
 }
 
-function RemovePost(post) {
-  ReadebleAPI.removePost(post)
-    .then((post) => {
-      this.props.dispatch(actionRemovePost(post));
-      console.log('Post deleted successfully !!!!!!');
-    });
+export function modalDeletePost(post, showing) {
+  return (dispatch) => {
+    post.showingDeleteModal = showing;
+    const showingAnyPostToDelete = showing;
+    const actModal = actionModalDeletePost(post, showingAnyPostToDelete);
+    dispatch(actModal);
+  }
+}
+
+export function removePost(post) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.removePost(post)
+      .then(() => {
+        modalDeletePost(post, false);
+        const action = actionDeletePost(post);
+        dispatch(action);
+        console.log('Post deleted successfully !!!!!!');
+
+        reload(false, dispatch);
+      });
+  };
 }
 
 export function getAll() {
@@ -196,7 +236,8 @@ export function getAll() {
     ReadebleAPI.getAll()
       .then((posts) => {
         posts.map((pt) => {
-          pt.showingEditModal = false
+          pt.showingEditModal = false,
+            pt.showingDeleteModal = false
         })
         const action = actionGetAll(posts);
         dispatch(action);

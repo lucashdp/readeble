@@ -10,6 +10,8 @@ export const GET_ALL_BY_CATEGORY = 'GET_ALL_BY_CATEGORY';
 export const UPDATE_POST = 'UPDATE_POST';
 export const MODAL_NEW_POST = 'MODAL_NEW_POST';
 export const MODAL_EDIT_POST = 'MODAL_EDIT_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const MODAL_DELETE_POST = 'MODAL_DELETE_POST';
 
 export function actionAddPost ( post ) {
   return {
@@ -95,5 +97,20 @@ export function actionModalEditPost (post, showingAnyPostToEdit) {
     type: MODAL_EDIT_POST,
     post,
     showingAnyPostToEdit
+  }
+}
+
+export function actionDeletePost (post) {
+  return {
+    type: DELETE_POST,
+    post
+  }
+}
+
+export function actionModalDeletePost (post, showingAnyPostToDelete) {
+  return {
+    type: MODAL_DELETE_POST,
+    post,
+    showingAnyPostToDelete
   }
 }
