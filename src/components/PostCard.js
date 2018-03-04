@@ -13,14 +13,17 @@ class PostCard extends Component {
         return (
             <div>
                 <Row>
-                    <Input s={12} label="Author" disabled className="white-text" value={post.author}
-                        onChange={this.handleChange}>
+                    <Link className="white-text blue" to={'/' + post.category + '/' + post.id}>
+                        Details Post
+                    </Link>
+                </Row>
+                <Row>
+                    <Input s={12} label="Author" disabled className="white-text" value={post.author}>
                         <Icon>account_circle</Icon>
                     </Input>
                 </Row>
                 <Row>
-                    <Input s={12} label="Title" disabled className="white-text" value={post.title}
-                        onChange={this.handleChange}>
+                    <Input s={12} label="Title" disabled className="white-text" value={post.title}>
                         <Icon>title</Icon>
                     </Input>
                 </Row>
@@ -40,31 +43,8 @@ class PostCard extends Component {
                     <DeleteModal post={post} />
                 </Row>
                 <Row>
-                    <Link className="white-text blue" to={'/comments/' + post.id}>
-                        {post.commentCount} Comments
-                    </Link>
+                    <h6 className="white-text">{post.commentCount} Comments</h6>
                 </Row>
-                {/* <div class="card-content white-text">
-                    <span class="card-title">{post.title}</span>
-                </div>
-                <Row>
-                    <label className="white-text label-big">
-                        {post.voteScore} Votes
-                    </label>
-                    <Button className="white-text blue"
-                        onClick={() => { votePost(post, "upVote") }}>
-                        <i class="material-icons">&#xE5CE;</i>
-                    </Button>
-                    <Button className="white-text blue"
-                        onClick={() => { votePost(post, "downVote") }}>
-                        <i class="material-icons">&#xE5CF;</i>
-                    </Button>
-                    <Link className="white-text blue" to={'/comments/' + post.id}>
-                        {post.commentCount} Comments
-                    </Link>
-                    <PostModal post={post} categories={categories} />
-                    <DeleteModal post={post} />
-                </Row> */}
             </div>
         );
     }

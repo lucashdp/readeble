@@ -16,6 +16,7 @@ import {
   actionDeletePost,
   actionModalDeletePost,
   actionOrderByVotes,
+  actionGetPostDetails,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -30,13 +31,14 @@ import {
   MODAL_EDIT_POST,
   DELETE_POST,
   MODAL_DELETE_POST,
-  ORDER_BY_POSTS
+  ORDER_BY_POSTS,
+  GET_POST_DETAIL
 } from '../actions'
 
 const initialState = { posts: [], categories: [], loading: true, showingNewModal: false, showingAnyPostToDelete: false, showingAnyPostToEdit: false }
 
 export default function posts(state = initialState, action) {
-  const { post, posts } = action;
+  const { post, posts, postDetail } = action;
 
   switch (action.type) {
     case ADD_POST:
@@ -79,7 +81,8 @@ export default function posts(state = initialState, action) {
         ...state.posts.map((pt) => {
           if (pt.id === post.id)
             pt.voteScore = post.voteScore
-        })
+        }),
+        postDetail: post
       }
     case ADD_VOTE_COMMENT:
       const { comment } = action;
@@ -96,6 +99,7 @@ export default function posts(state = initialState, action) {
         posts
       }
     case UPDATE_POST:
+      post.showingEditModal = false;
       return {
         ...state,
         showingAnyPostToEdit: false,
@@ -105,15 +109,17 @@ export default function posts(state = initialState, action) {
             pt.category = post.category;
             pt.title = post.title;
             pt.body = post.body;
-            pt.showingEditModal = false;
+            pt.showingEditModal = post.showingEditModal;
           }
-        })
+        }),
+        postDetail: post
       }
     case DELETE_POST:
       return {
         ...state,
         posts: state.posts.filter((pt) => pt.id !== post.id),
-        showingAnyPostToDelete: false
+        showingAnyPostToDelete: false,
+        postDetail: {}
       }
     case MODAL_NEW_POST:
       const { showingNewModal } = action;
@@ -149,6 +155,11 @@ export default function posts(state = initialState, action) {
         ...state.posts.sort((a, b) => {
           return a.voteScore - b.voteScore;
         })
+      }
+    case GET_POST_DETAIL:
+      return {
+        ...state,
+        postDetail
       }
     default:
       return state
@@ -230,7 +241,7 @@ export function orderByVotes() {
 
     const action = actionOrderByVotes();
     dispatch(action);
-    
+
     reload(false, dispatch);
   }
 }
@@ -262,6 +273,26 @@ export function getAll() {
         const action = actionGetAll(posts);
         dispatch(action);
       });
+  };
+}
+
+export function getPostDetail(postDetailId, category) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.getPostDetail(postDetailId)
+      .then((postDetail) => {
+        if (postDetail.category === category) {
+          const action = actionGetPostDetails(postDetail);
+          dispatch(action);
+        } else {
+          const postDetail = {};
+          const action = actionGetPostDetails(postDetail);
+          dispatch(action);
+        }
+      });
+
+    reload(false, dispatch);
   };
 }
 

@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import Header from './Header';
 import CommentPage from './CommentPage';
+import PostDetail from './PostDetail';
 import { ConnectedRouter } from "react-router-redux";
 import {
     getAllByCategory, getCategories
@@ -21,6 +22,7 @@ class RoutesApp extends Component {
                     <Route exact path="/:category" render={() => (
                         <HomePage byCategory={true} />
                     )} />
+                    <Route exact path="/:category/:postDetailId" component={PostDetail} />
                 </div>
             </ConnectedRouter>
         );

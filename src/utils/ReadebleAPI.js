@@ -31,6 +31,11 @@ export const getAllByCategory = (category) =>
     .then(response => response.json())
     .then(data => data);
 
+export const getPostDetail = (postDetailId) =>
+  fetch(`${api}/posts/${postDetailId}`, { method: 'GET', headers })
+    .then(response => response.json())
+    .then(data => data);
+
 
 
 

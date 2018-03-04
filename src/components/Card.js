@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import PostCard from './PostCard';
 import CommentCard from './CommentCard';
+import PostDetailCard from './PostDetailCard';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import {
@@ -11,7 +12,7 @@ import {
 
 class Card extends Component {
     render() {
-        const { post, comment } = this.props;
+        const { post, comment, postDetail } = this.props;
 
         return (
             <div class="card blue darken-1">
@@ -19,7 +20,13 @@ class Card extends Component {
                     {post ? (
                         <PostCard post={post} votePost={this.props.votePost} />
                     ) :
-                        <CommentCard comment={comment} />
+                        postDetail ? (
+                            <PostDetailCard postDetail={postDetail} votePost={this.props.votePost} />
+                        ) :
+                            comment ? (
+                                <CommentCard comment={comment} />
+                            ) :
+                                <div></div>
                     }
                 </div>
             </div>
@@ -30,7 +37,8 @@ class Card extends Component {
 const mapStateToProps = (state) => ({
     posts: state.reducer.posts,
     loading: state.reducer.loading,
-    categories: state.reducer.categories
+    categories: state.reducer.categories,
+    postDetail: state.reducer.postDetail
 });
 
 const mapDispatchToProps = (dispatch) => {

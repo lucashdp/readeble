@@ -23,7 +23,7 @@ export default function CommentCard({ comment, voteComment }) {
                     <i class="material-icons">&#xE5CF;</i>
                 </Button>
             </Row>
-            <DeleteModal commentId={comment.id} />
+            {/* <DeleteModal commentId={comment.id} /> */}
         </div>
     );
 }
