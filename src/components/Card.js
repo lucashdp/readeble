@@ -14,16 +14,13 @@ class Card extends Component {
         const { post, comment } = this.props;
 
         return (
-            <div>
-                <h5>Author: {post ? post.author : comment.author}</h5>
-                <div class="card blue darken-1">
-                    <div class="card-action">
-                        {post ? (
-                            <PostCard post={post} votePost={this.props.votePost}/>
-                        ) :
-                            <CommentCard comment={comment}/>
-                        }
-                    </div>
+            <div class="card blue darken-1">
+                <div class="card-action">
+                    {post ? (
+                        <PostCard post={post} votePost={this.props.votePost} />
+                    ) :
+                        <CommentCard comment={comment} />
+                    }
                 </div>
             </div>
         );
