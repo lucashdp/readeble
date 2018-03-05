@@ -4,7 +4,6 @@ export const GET_ALL = 'GET_ALL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_VOTE_POST = 'ADD_VOTE_POST';
 export const LOADING = 'LOADING';
-export const GET_COMMENTS = 'GET_COMMENTS';
 export const ADD_VOTE_COMMENT = 'ADD_VOTE_COMMENT';
 export const GET_ALL_BY_CATEGORY = 'GET_ALL_BY_CATEGORY';
 export const UPDATE_POST = 'UPDATE_POST';
@@ -63,13 +62,6 @@ export function actionLoading (loading) {
   return {
     type: LOADING,
     loading
-  }
-}
-
-export function actionGetComments (comments) {
-  return {
-    type: GET_COMMENTS,
-    comments
   }
 }
 

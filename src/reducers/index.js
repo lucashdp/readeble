@@ -7,7 +7,6 @@ import {
   actionAddPost,
   actionRemovePost,
   actionLoading,
-  actionGetComments,
   actionVoteComment,
   actionGetAlByCategory,
   actionUpdatePost,
@@ -23,7 +22,6 @@ import {
   GET_CATEGORIES,
   ADD_VOTE_POST,
   LOADING,
-  GET_COMMENTS,
   ADD_VOTE_COMMENT,
   GET_ALL_BY_CATEGORY,
   UPDATE_POST,
@@ -63,12 +61,6 @@ export default function posts(state = initialState, action) {
         ...state,
         categories
       }
-    case GET_COMMENTS:
-      const { comments } = action;
-      return {
-        ...state,
-        comments
-      }
     case LOADING:
       const { loading } = action;
       return {
@@ -81,14 +73,16 @@ export default function posts(state = initialState, action) {
         ...state.posts.map((pt) => {
           if (pt.id === post.id)
             pt.voteScore = post.voteScore
-        }),
-        postDetail: post
+
+          if (state.postDetail !== undefined && pt.id === state.postDetail.id)
+            state.postDetail.voteScore = post.voteScore
+        })
       }
     case ADD_VOTE_COMMENT:
       const { comment } = action;
       return {
         ...state,
-        ...state.comments.map((cmt) => {
+        ...state.postDetail.comments.map((cmt) => {
           if (cmt.id === comment.id)
             cmt.voteScore = comment.voteScore
         })
@@ -283,16 +277,13 @@ export function getPostDetail(postDetailId, category) {
     ReadebleAPI.getPostDetail(postDetailId)
       .then((postDetail) => {
         if (postDetail.category === category) {
-          const action = actionGetPostDetails(postDetail);
-          dispatch(action);
+          getComments(postDetail, dispatch);
         } else {
           const postDetail = {};
           const action = actionGetPostDetails(postDetail);
           dispatch(action);
         }
       });
-
-    reload(false, dispatch);
   };
 }
 
@@ -320,18 +311,15 @@ export function getCategories() {
   };
 }
 
-export function getComments(postId) {
-  return (dispatch) => {
-    reload(true, dispatch);
-
-    ReadebleAPI.getComments(postId)
-      .then((comments) => {
-        const action = actionGetComments(comments);
-        dispatch(action);
-
-        reload(false, dispatch);
-      });
-  };
+function getComments(postDetail, dispatch) {
+  const postId = postDetail.id;
+  ReadebleAPI.getComments(postId)
+    .then((comments) => {
+      postDetail.comments = comments;
+      const action = actionGetPostDetails(postDetail);
+      dispatch(action);
+      reload(false, dispatch);
+    });
 }
 
 export function updatePost(post) {

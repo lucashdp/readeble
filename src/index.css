@@ -42,6 +42,14 @@ textarea:focus{
 	padding-top: 1%
 }
 
+.pl-4 {
+	padding-left: 4%
+}
+
+.pl-68 {
+	padding-left: 68%
+}
+
 .pr-2 {
 	padding-right: 2%
 }

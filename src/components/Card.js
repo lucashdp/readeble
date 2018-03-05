@@ -12,7 +12,7 @@ import {
 
 class Card extends Component {
     render() {
-        const { post, comment, postDetail } = this.props;
+        const { post, postDetail } = this.props;
 
         return (
             <div class="card blue darken-1">
@@ -23,10 +23,7 @@ class Card extends Component {
                         postDetail ? (
                             <PostDetailCard postDetail={postDetail} votePost={this.props.votePost} />
                         ) :
-                            comment ? (
-                                <CommentCard comment={comment} />
-                            ) :
-                                <div></div>
+                            <div></div>
                     }
                 </div>
             </div>

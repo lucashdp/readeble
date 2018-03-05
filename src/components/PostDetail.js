@@ -13,7 +13,7 @@ import {
 class PostDetailCard extends Component {
 
     componentDidMount() {
-        this.props.getPostDetail(this.props.match.params.postDetailId, this.props.match.params.category);
+        this.props.getPostDetail(this.props.match.params.postDetailId, this.props.match.params.category)
     }
 
     render() {
@@ -21,7 +21,7 @@ class PostDetailCard extends Component {
 
         return (
             <div>
-                {!loading && postDetail ? (
+                {!loading ? (
                     <ul className='p-2'>
                         <Post postDetail={postDetail} />
                     </ul>
