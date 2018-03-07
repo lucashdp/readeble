@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Input, Icon } from 'react-materialize';
-import DeleteModal from './DeleteModal';
 import PostModal from './PostModal';
 
 export default function PostCardHeader({ post }) {

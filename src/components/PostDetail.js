@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Icon, Input } from 'react-materialize';
-import DeleteModal from './DeleteModal';
 import { Link } from 'react-router-dom';
 import Post from './Post';
 import Loading from './Loading';

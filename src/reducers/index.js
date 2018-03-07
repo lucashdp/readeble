@@ -12,10 +12,15 @@ import {
   actionUpdatePost,
   actionModalNewPost,
   actionModalEditPost,
-  actionDeletePost,
   actionModalDeletePost,
+  actionModalNewComment,
+  actionModalEditComment,
+  actionModalDeleteComment,
+  actionDeletePost,
   actionOrderByVotes,
   actionGetPostDetails,
+  actionAddComment,
+  actionUpdateComment,
   ADD_POST,
   REMOVE_POST,
   GET_ALL,
@@ -27,16 +32,34 @@ import {
   UPDATE_POST,
   MODAL_NEW_POST,
   MODAL_EDIT_POST,
-  DELETE_POST,
   MODAL_DELETE_POST,
+  DELETE_POST,
   ORDER_BY_POSTS,
-  GET_POST_DETAIL
+  GET_POST_DETAIL,
+  ADD_COMMENT,
+  UPDATE_COMMENT,  
+  MODAL_NEW_COMMENT,
+  MODAL_EDIT_COMMENT,
+  MODAL_DELETE_COMMENT,
+  DELETE_COMMENT,
+  actionDeleteComment
 } from '../actions'
 
-const initialState = { posts: [], categories: [], loading: true, showingNewModal: false, showingAnyPostToDelete: false, showingAnyPostToEdit: false }
+const initialState =
+  {
+    posts: [],
+    categories: [],
+    loading: true,
+    showingNewModal: false,
+    showingAnyPostToDelete: false,
+    showingAnyPostToEdit: false,
+    showingNewCommentModal: false,
+    showingAnyCommentToDelete: false,
+    showingAnyCommentToEdit: false
+  }
 
 export default function posts(state = initialState, action) {
-  const { post, posts, postDetail } = action;
+  const { post, posts, postDetail, comment } = action;
 
   switch (action.type) {
     case ADD_POST:
@@ -44,6 +67,12 @@ export default function posts(state = initialState, action) {
         ...state,
         posts: [...state.posts, post],
         showingNewModal: false
+      }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        postDetail: [...state.postDetail.comments, comment],
+        showingNewCommentModal: false
       }
     case REMOVE_POST:
       return {
@@ -79,7 +108,6 @@ export default function posts(state = initialState, action) {
         })
       }
     case ADD_VOTE_COMMENT:
-      const { comment } = action;
       return {
         ...state,
         ...state.postDetail.comments.map((cmt) => {
@@ -108,6 +136,19 @@ export default function posts(state = initialState, action) {
         }),
         postDetail: post
       }
+    case UPDATE_COMMENT:
+      comment.showingEditCommentsModal = false;
+      return {
+        ...state,
+        showingAnyCommentToEdit: false,
+        ...state.postDetail.comments.map((cmt) => {
+          if (cmt.id === comment.id) {
+            cmt.author = comment.author;
+            cmt.body = comment.body;
+            cmt.showingEditCommentModal = comment.showingEditCommentModal;
+          }
+        })
+      }
     case DELETE_POST:
       return {
         ...state,
@@ -115,11 +156,23 @@ export default function posts(state = initialState, action) {
         showingAnyPostToDelete: false,
         postDetail: {}
       }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        showingAnyCommentToDelete: false,
+        ...state.postDetail.comments = state.postDetail.comments.filter((cmt) => cmt.id !== comment.id)
+      }
     case MODAL_NEW_POST:
       const { showingNewModal } = action;
       return {
         ...state,
         showingNewModal
+      }
+    case MODAL_NEW_COMMENT:
+      const { showingNewCommentModal } = action;
+      return {
+        ...state,
+        showingNewCommentModal
       }
     case MODAL_EDIT_POST:
       const { showingAnyPostToEdit } = action;
@@ -132,6 +185,17 @@ export default function posts(state = initialState, action) {
           }
         })
       }
+    case MODAL_EDIT_COMMENT:
+      const { showingAnyCommentToEdit } = action;
+      return {
+        ...state,
+        showingAnyCommentToEdit,
+        ...state.postDetail.comments.map((cmt) => {
+          if (cmt.id === comment.id) {
+            cmt.showingEditCommentModal = comment.showingEditCommentModal
+          }
+        })
+      }
     case MODAL_DELETE_POST:
       const { showingAnyPostToDelete } = action;
       return {
@@ -140,6 +204,17 @@ export default function posts(state = initialState, action) {
         ...state.posts.map((pt) => {
           if (pt.id === post.id) {
             pt.showingDeleteModal = post.showingDeleteModal
+          }
+        })
+      }
+    case MODAL_DELETE_COMMENT:
+      const { showingAnyCommentToDelete } = action;
+      return {
+        ...state,
+        showingAnyCommentToDelete,
+        ...state.postDetail.comments.map((cmt) => {
+          if (cmt.id === comment.id) {
+            cmt.showingDeleteCommentModal = comment.showingDeleteCommentModal
           }
         })
       }
@@ -168,6 +243,19 @@ export function sendPost(post) {
       .then(() => {
         dispatch(actionAddPost(post));
         console.log('Posted successfully !!!!!!');
+        reload(false, dispatch);
+      });
+  }
+}
+
+export function sendComment(comment) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.doComment(comment)
+      .then(() => {
+        dispatch(actionAddComment(comment));
+        console.log('Commented successfully !!!!!!');
         reload(false, dispatch);
       });
   }
@@ -220,11 +308,34 @@ export function modal(post, showing) {
   }
 }
 
+export function modalComment(comment, showing) {
+  return (dispatch) => {
+    if (comment !== undefined) {
+      comment.showingEditCommentModal = showing;
+      const showingAnyCommentToEdit = showing;
+      const actModal = actionModalEditComment(comment, showingAnyCommentToEdit);
+      dispatch(actModal);
+    } else {
+      const actModal = actionModalNewComment(showing);
+      dispatch(actModal);
+    }
+  }
+}
+
 export function modalDeletePost(post, showing) {
   return (dispatch) => {
     post.showingDeleteModal = showing;
     const showingAnyPostToDelete = showing;
     const actModal = actionModalDeletePost(post, showingAnyPostToDelete);
+    dispatch(actModal);
+  }
+}
+
+export function modalDeleteComment(comment, showing) {
+  return (dispatch) => {
+    comment.showingDeleteCommentModal = showing;
+    const showingAnyCommentToDelete = showing;
+    const actModal = actionModalDeleteComment(comment, showingAnyCommentToDelete);
     dispatch(actModal);
   }
 }
@@ -250,6 +361,22 @@ export function removePost(post) {
         const action = actionDeletePost(post);
         dispatch(action);
         console.log('Post deleted successfully !!!!!!');
+
+        reload(false, dispatch);
+      });
+  };
+}
+
+export function removeComment(comment) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.removeComment(comment)
+      .then(() => {
+        modalDeleteComment(comment, false);
+        const action = actionDeleteComment(comment);
+        dispatch(action);
+        console.log('Comment deleted successfully !!!!!!');
 
         reload(false, dispatch);
       });
@@ -315,6 +442,10 @@ function getComments(postDetail, dispatch) {
   const postId = postDetail.id;
   ReadebleAPI.getComments(postId)
     .then((comments) => {
+      comments.map((cmt) => {
+        cmt.showingEditCommentModal = false,
+          cmt.showingDeleteCommentModal = false
+      })
       postDetail.comments = comments;
       const action = actionGetPostDetails(postDetail);
       dispatch(action);
@@ -330,6 +461,19 @@ export function updatePost(post) {
       .then(() => {
         dispatch(actionUpdatePost(post));
         console.log('Post updated successfully !!!!!!');
+        reload(false, dispatch);
+      });
+  }
+}
+
+export function updateComment(comment) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    ReadebleAPI.updateComment(comment)
+      .then(() => {
+        dispatch(actionUpdateComment(comment));
+        console.log('Comment updated successfully !!!!!!');
         reload(false, dispatch);
       });
   }

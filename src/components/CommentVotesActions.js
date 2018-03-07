@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-materialize';
-import DeleteModal from './DeleteModal';
-import PostModal from './PostModal';
+import DeleteCommentModal from './DeleteCommentModal';
+import CommentModal from './CommentModal';
 
-export default function VotesActions({ post, categories, votePost }) {
+export default function CommentVotesActions({ comment, categories, voteComment }) {
     return (
         <Row>
             <Col s={6}>
                 <label className="white-text label-big pl-4" for="votesButtons">
-                    {post.voteScore} Votes
+                    {comment.voteScore} Votes
                                     </label>
                 <div name="votesButtons">
                     <Button className="white-text blue"
-                        onClick={() => { votePost(post, "upVote") }}>
+                        onClick={() => { voteComment(comment, "upVote") }}>
                         <i className="material-icons">&#xE0B2;</i>
                     </Button>
                     <Button className="white-text blue"
-                        onClick={() => { votePost(post, "downVote") }}>
+                        onClick={() => { voteComment(comment, "downVote") }}>
                         <i className="material-icons">&#xE0B5;</i>
                     </Button>
                 </div>
@@ -26,8 +26,8 @@ export default function VotesActions({ post, categories, votePost }) {
                     Actions
                                     </label>
                 <div name="actions">
-                    <PostModal post={post} categories={categories} />
-                    <DeleteModal post={post} />
+                    <CommentModal comment={comment} categories={categories} />
+                    <DeleteCommentModal comment={comment} />
                 </div>
             </Col>
         </Row>

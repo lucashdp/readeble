@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
-import { Button } from 'react-materialize';
-import DeleteModal from './DeleteModal';
+import { Button, Input, Icon } from 'react-materialize';
+import DeleteCommentModal from './DeleteCommentModal';
+import CommentVotesActions from './CommentVotesActions';
 
 export default function CommentCard({ comment, voteComment }) {
     return (
-        <div class="card green darken-1">
-            <div class="card-action">
-                <div class="card-content white-text">
-                    <span class="card-title">{comment.title}</span>
+        <div className="card green darken-1">
+            <div className="card-action">
+                <div className="card-content white-text">
+                    <Row>
+                        <Input s={12} label="Author" disabled className="white-text" value={comment.author}>
+                            <Icon>account_circle</Icon>
+                        </Input>
+                    </Row>
                     <p>{comment.body}</p>
                 </div>
-                <Row>
-                    <label className="white-text label-big">
-                        {comment.voteScore} Votes
-                </label>
-                    <Button className="white-text blue"
-                        onClick={() => { voteComment(comment, "upVote") }}>
-                        <i class="material-icons">&#xE5CE;</i>
-                    </Button>
-                    <Button className="white-text blue"
-                        onClick={() => { voteComment(comment, "downVote") }}>
-                        <i class="material-icons">&#xE5CF;</i>
-                    </Button>
-                </Row>
-                {/* <DeleteModal commentId={comment.id} /> */}
+                <CommentVotesActions comment={comment} voteComment={voteComment} />
             </div>
         </div>
     );

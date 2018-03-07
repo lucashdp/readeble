@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import {
-    removePost, modalDeletePost
+    removeComment, modalDeleteComment
 } from "../reducers";
 
 const style = {
@@ -23,30 +23,30 @@ const style = {
     }
 };
 
-class DeleteModal extends Component {
+class DeleteCommentModal extends Component {
     render() {
-        const { post, modalDeletePost, removePost } = this.props;
+        const { comment, modalDeleteComment, removeComment } = this.props;
         return (
             <div>
                 <Button className='red right' onClick={() => {
-                    modalDeletePost(post, true);
+                    modalDeleteComment(comment, true);
                 }}>
-                    <i class="material-icons">delete</i>
+                    <i className="material-icons">delete</i>
                 </Button>
                 <Modal
                     style={style}
-                    contentLabel='Delete Post'
-                    id={'modalDelete' + post.id}
+                    contentLabel='Delete Comment'
+                    id={'modalCommentDelete' + comment.id}
                     ariaHideApp={false}
-                    isOpen={post.showingDeleteModal}>
+                    isOpen={comment.showingDeleteCommentModal}>
                     <Row>
-                        <p>Do you really want to delete this post ?</p>
+                        <p>Do you really want to delete this comment ?</p>
                     </Row>
-                    <Button className='red' onClick={() => { removePost(post) }}>
+                    <Button className='red' onClick={() => { removeComment(comment) }}>
                         DELETE
                     </Button>
                     <Button onClick={() => {
-                        modalDeletePost(post, false);
+                        modalDeleteComment(comment, false);
                     }}>Close</Button>
                 </Modal>
             </div>
@@ -55,17 +55,17 @@ class DeleteModal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    showingAnyPostToDelete: state.reducer.showingAnyPostToDelete
+    showingAnyCommentToDelete: state.reducer.showingAnyCommentToDelete
 });
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        removePost,
-        modalDeletePost
+        removeComment,
+        modalDeleteComment
     }, dispatch)
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(DeleteModal)
+)(DeleteCommentModal)

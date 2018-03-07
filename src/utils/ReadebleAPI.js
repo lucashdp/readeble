@@ -47,9 +47,9 @@ export const doPost = (post) => {
     .then(response => response.json());
 };
 
-export const updatePost = (post) => {
-  const jsonPost = JSON.stringify(post);
-  return fetch(`${api}/posts/${post.id}`, { method: 'PUT', headers, body: jsonPost })
+export const doComment = (comment) => {
+  const jsonComment = JSON.stringify(comment);
+  return fetch(`${api}/comments/`, { method: 'POST', headers, body: jsonComment })
     .then(response => response.json());
 };
 
@@ -67,11 +67,27 @@ export const voteComment = (comment, option) => {
 
 
 
+/* --------------------------------------REGION PUT------------------------------------------------ */
+export const updatePost = (post) => {
+  const jsonPost = JSON.stringify(post);
+  return fetch(`${api}/posts/${post.id}`, { method: 'PUT', headers, body: jsonPost })
+    .then(response => response.json());
+};
 
+export const updateComment = (comment) => {
+  const jsonComment = JSON.stringify(comment);
+  return fetch(`${api}/comments/${comment.id}`, { method: 'PUT', headers, body: jsonComment })
+    .then(response => response.json());
+};
 
 
 /* --------------------------------------REGION DELETE------------------------------------------------ */
 export const removePost = (post) => {
   return fetch(`${api}/posts/${post.id}`, { method: 'DELETE', headers })
+    .then(response => response.json());
+};
+
+export const removeComment = (comment) => {
+  return fetch(`${api}/comments/${comment.id}`, { method: 'DELETE', headers })
     .then(response => response.json());
 };

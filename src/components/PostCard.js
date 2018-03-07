@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Icon, Input } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import FormPost from './FormPost';
-import VotesActions from './VotesActions';
+import PostVotesActions from './PostVotesActions';
 import PostCardHeader from './PostCardHeader';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ class PostCard extends Component {
                     </Link>
                 </Row>
                 <PostCardHeader post={post} />
-                <VotesActions post={post} categories={categories} votePost={votePost} />
+                <PostVotesActions post={post} categories={categories} votePost={votePost} />
                 <Row>
                     <h6 className="white-text center">{post.commentCount} Comments</h6>
                 </Row>
