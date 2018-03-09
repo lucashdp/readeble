@@ -197,3 +197,18 @@ textarea:focus{
 .label-big {
   font-size: 2rem
 }
+.rotate-180 {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.pl-0
+{
+  padding-left: 0%
+}
+.p-0
+{
+  padding: 0%
+}

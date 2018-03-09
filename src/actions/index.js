@@ -159,9 +159,10 @@ export function actionDeleteComment(comment) {
   }
 }
 
-export function actionOrderByVotes() {
+export function actionOrderByVotes(orderAscending) {
   return {
-    type: ORDER_BY_POSTS
+    type: ORDER_BY_POSTS,
+    orderAscending
   }
 }
 

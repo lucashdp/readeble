@@ -20,13 +20,13 @@ class HomePage extends Component {
     }
 
     render() {
-        const { loading, posts, categories, showingNewModal } = this.props;
+        const { loading, posts, categories, showingNewModal, orderAscending } = this.props;
 
         return (
             <div>
                 {!loading ? (
                     <div>
-                        <Post posts={posts} />
+                        <Post posts={posts} orderAscending={orderAscending} />
                         <PostModal categories={categories} showingNewModal={showingNewModal} />
                     </div>
                 ) : ""}
@@ -43,7 +43,8 @@ const mapStateToProps = (state) => ({
     loading: state.reducer.loading,
     categories: state.reducer.categories,
     path: state.router.location.pathname.substring(1),
-    showingNewModal: state.reducer.showingNewModal
+    showingNewModal: state.reducer.showingNewModal,
+    orderAscending: state.reducer.orderAscending
 });
 
 const mapDispatchToProps = (dispatch) => {

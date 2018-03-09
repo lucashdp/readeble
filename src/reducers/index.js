@@ -55,7 +55,8 @@ const initialState =
     showingAnyPostToEdit: false,
     showingNewCommentModal: false,
     showingAnyCommentToDelete: false,
-    showingAnyCommentToEdit: false
+    showingAnyCommentToEdit: false,
+    orderAscending: true
   }
 
 export default function posts(state = initialState, action) {
@@ -219,11 +220,10 @@ export default function posts(state = initialState, action) {
         })
       }
     case ORDER_BY_POSTS:
+    const { orderAscending } = action;
       return {
         ...state,
-        ...state.posts.sort((a, b) => {
-          return a.voteScore - b.voteScore;
-        })
+        orderAscending
       }
     case GET_POST_DETAIL:
       return {
@@ -340,11 +340,11 @@ export function modalDeleteComment(comment, showing) {
   }
 }
 
-export function orderByVotes() {
+export function orderByVotes(orderAscending) {
   return (dispatch) => {
     reload(true, dispatch);
 
-    const action = actionOrderByVotes();
+    const action = actionOrderByVotes(orderAscending);
     dispatch(action);
 
     reload(false, dispatch);
