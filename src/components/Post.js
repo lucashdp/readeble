@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
 import Card from './Card'
 
-export default function Post({ posts, postDetail, orderAscending }) {
+export default function Post({ posts, postDetail, orderAscending, categories, path }) {
 
     if (posts !== undefined && posts.length > 0) {
 
-        if(orderAscending)
-        posts = posts.sort((a, b) => {
-            return a.voteScore - b.voteScore;
-        })
+        if (orderAscending)
+            posts = posts.sort((a, b) => {
+                return a.voteScore - b.voteScore;
+            })
         else
-        posts = posts.sort((a, b) => {
-            return b.voteScore - a.voteScore;
-        })
+            posts = posts.sort((a, b) => {
+                return b.voteScore - a.voteScore;
+            })
+
+        const paths = categories.map((category) => {
+            return category.path
+        });
+        if (paths.includes(path)) {
+            posts = posts.filter((pt) => pt.category === path)
+        }
     }
 
     return (

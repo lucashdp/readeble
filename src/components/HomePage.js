@@ -20,13 +20,13 @@ class HomePage extends Component {
     }
 
     render() {
-        const { loading, posts, categories, showingNewModal, orderAscending } = this.props;
+        const { loading, posts, categories, showingNewModal, orderAscending, path } = this.props;
 
         return (
             <div>
                 {!loading ? (
                     <div>
-                        <Post posts={posts} orderAscending={orderAscending} />
+                        <Post posts={posts} orderAscending={orderAscending} categories={categories} path={path} />
                         <PostModal categories={categories} showingNewModal={showingNewModal} />
                     </div>
                 ) : ""}
