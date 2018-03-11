@@ -16,7 +16,7 @@ class Header extends Component {
     }
 
     render() {
-        const { loading, categories, orderByVotes, orderAscending } = this.props;
+        const { loading, categories, orderByVotes, orderAscending, path } = this.props;
 
         return (
             <div>
@@ -29,7 +29,7 @@ class Header extends Component {
                                     <NavItem href={'/' + category.path}>{category.name}</NavItem>
                                 )) : ""}
                         </Navbar>
-                        <div className="p-1">
+                        <div className="p-1" hidden={path !== ""}>
                             <Button className="white-text blue p-0" onClick={() => { orderByVotes(!orderAscending) }}>
                                 <i className={orderAscending ? 'material-icons rotate-180' : 'material-icons'}>&#xE164;</i>Order By Votes
                             </Button>
@@ -43,6 +43,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
     categories: state.reducer.categories,
+    path: state.router.location.pathname.substring(1),
     orderAscending: state.reducer.orderAscending
 });
 
