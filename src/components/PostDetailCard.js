@@ -15,7 +15,7 @@ import {
 class PostDetailCard extends Component {
 
     render() {
-        const { votePost, categories, voteComment } = this.props;
+        const { votePost, categories, voteComment, showingNewCommentModal } = this.props;
         const post = this.props.postDetail;
 
         return (
@@ -30,7 +30,7 @@ class PostDetailCard extends Component {
                             <PostVotesActions post={post} categories={categories} votePost={votePost} />
                             <Row></Row>
                         </Row>
-                        <Comment comments={post.comments} voteComment={voteComment} />
+                        <Comment comments={post.comments} voteComment={voteComment} showingNewCommentModal={showingNewCommentModal} parentId={post.id}/>
                     </div>
                 ) :
                     <div></div>
@@ -42,7 +42,8 @@ class PostDetailCard extends Component {
 
 const mapStateToProps = (state) => ({
     categories: state.reducer.categories,
-    postDetail: state.reducer.postDetail
+    postDetail: state.reducer.postDetail,
+    showingNewCommentModal: state.reducer.showingNewCommentModal
 });
 
 const mapDispatchToProps = (dispatch) => {

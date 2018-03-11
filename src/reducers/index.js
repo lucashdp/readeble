@@ -72,7 +72,7 @@ export default function posts(state = initialState, action) {
     case ADD_COMMENT:
       return {
         ...state,
-        postDetail: [...state.postDetail.comments, comment],
+        ...state.postDetail.comments = [...state.postDetail.comments, comment],
         showingNewCommentModal: false
       }
     case REMOVE_POST:
@@ -103,10 +103,8 @@ export default function posts(state = initialState, action) {
         ...state.posts.map((pt) => {
           if (pt.id === post.id)
             pt.voteScore = post.voteScore
-
-          if (state.postDetail !== undefined && pt.id === state.postDetail.id)
-            state.postDetail.voteScore = post.voteScore
-        })
+        }),
+        ...state.postDetail !== undefined ? state.postDetail.voteScore = post.voteScore : ''
       }
     case ADD_VOTE_COMMENT:
       return {

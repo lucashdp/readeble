@@ -3,7 +3,7 @@ import { Row, Col, Button } from 'react-materialize';
 import DeleteCommentModal from './DeleteCommentModal';
 import CommentModal from './CommentModal';
 
-export default function CommentVotesActions({ comment, categories, voteComment }) {
+export default function CommentVotesActions({ comment, categories, voteComment, parentId }) {
     return (
         <Row>
             <Col s={6}>
@@ -26,7 +26,7 @@ export default function CommentVotesActions({ comment, categories, voteComment }
                     Actions
                                     </label>
                 <div name="actions">
-                    <CommentModal comment={comment} categories={categories} />
+                    <CommentModal comment={comment} categories={categories} parentId={parentId} />
                     <DeleteCommentModal comment={comment} />
                 </div>
             </Col>

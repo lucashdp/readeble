@@ -15,7 +15,9 @@ class FormComment extends Component {
             {
                 comment: props.comment,
                 author: props.comment ? props.comment.author : '',
-                body: props.comment ? props.comment.body : ''
+                body: props.comment ? props.comment.body : '',
+                voteScore: props.comment ? props.comment.voteScore : 1,
+                parentId: props.parentId ? props.parentId : ''
             };
 
         this.handleChange = this.handleChange.bind(this);
@@ -38,7 +40,7 @@ class FormComment extends Component {
                 id: comment.id,
                 author,
                 body,
-                parentId: comment.parentId,
+                parentId,
                 timestamp: Date.now()
             }
 
@@ -49,7 +51,7 @@ class FormComment extends Component {
                 id: uuid(),
                 author,
                 body,
-                parentId: comment.parentId,
+                parentId,
                 timestamp: Date.now()
             }
 

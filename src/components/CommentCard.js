@@ -4,7 +4,7 @@ import { Button, Input, Icon } from 'react-materialize';
 import DeleteCommentModal from './DeleteCommentModal';
 import CommentVotesActions from './CommentVotesActions';
 
-export default function CommentCard({ comment, voteComment }) {
+export default function CommentCard({ comment, voteComment, parentId }) {
     return (
         <div className="card green darken-1">
             <div className="card-action">
@@ -16,7 +16,7 @@ export default function CommentCard({ comment, voteComment }) {
                     </Row>
                     <p>{comment.body}</p>
                 </div>
-                <CommentVotesActions comment={comment} voteComment={voteComment} />
+                <CommentVotesActions comment={comment} voteComment={voteComment} parentId={parentId} />
             </div>
         </div>
     );

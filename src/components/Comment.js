@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
 import CommentCard from './CommentCard'
+import CommentModal from './CommentModal';
 
-export default function Comment({ comments, voteComment }) {
+export default function Comment({ comments, voteComment, showingNewCommentModal, parentId }) {
     return (
         <div>
             <ul className='p-1'>
@@ -14,7 +15,7 @@ export default function Comment({ comments, voteComment }) {
                             <Row>
                                 <Col s={2}></Col>
                                 <Col s={8}>
-                                    <CommentCard comment={comment} voteComment={voteComment} />
+                                    <CommentCard comment={comment} voteComment={voteComment} parentId={parentId} />
                                 </Col>
                                 <Col s={2}></Col>
                             </Row>
@@ -23,6 +24,7 @@ export default function Comment({ comments, voteComment }) {
                 </div>)
                     : <p className="center white-text"> 0 comments.</p>}
             </ul>
+            <CommentModal showingNewCommentModal={showingNewCommentModal} parentId={parentId}/>
         </div>
     );
 }

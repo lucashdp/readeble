@@ -25,7 +25,7 @@ const style = {
 
 class CommentModal extends Component {
     render() {
-        const { comment, showingNewCommentModal, modalComment } = this.props;
+        const { comment, showingNewCommentModal, modalComment, parentId } = this.props;
         return (
             <div>
                 {(comment !== undefined && comment.id !== undefined) ?
@@ -41,7 +41,7 @@ class CommentModal extends Component {
                             id={'modalEditComment' + comment.id}
                             ariaHideApp={false}
                             isOpen={comment.showingEditCommentModal}>
-                            <FormComment comment={comment} />
+                            <FormComment comment={comment} parentId={parentId}/>
                             <Button className="blue" type="submit" form={'formCommentEdit' + comment.id}>Send
                                 <Icon left>send</Icon>
                             </Button>
@@ -52,7 +52,7 @@ class CommentModal extends Component {
                     </div>
                     :
                     <div>
-                        <Button floating large className='blue right-absolute' waves='light' icon='add'
+                        <Button floating large className='green right-absolute' waves='light' icon='add'
                             onClick={() => {
                                 modalComment(undefined, true);
                             }} />
@@ -62,7 +62,7 @@ class CommentModal extends Component {
                             id="modalComment"
                             isOpen={showingNewCommentModal}
                             ariaHideApp={false}>
-                            <FormComment />
+                            <FormComment parentId={parentId}/>
                             <Button className="blue" type="submit" form="formCommentNew" modal="close">Send
                                 <Icon left>send</Icon>
                             </Button>
