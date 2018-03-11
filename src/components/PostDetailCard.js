@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Icon, Input } from 'react-materialize';
-import { Link } from 'react-router-dom';
-import FormPost from './FormPost';
+import { Row } from 'react-materialize';
 import PostVotesActions from './PostVotesActions';
-import PostModal from './PostModal';
 import Comment from './Comment';
 import PostCardHeader from './PostCardHeader';
 import { connect } from 'react-redux';

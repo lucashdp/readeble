@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col, Button } from 'react-materialize';
 import DeletePostModal from './DeletePostModal';
 import PostModal from './PostModal';
@@ -7,7 +7,7 @@ export default function PostVotesActions({ post, categories, votePost }) {
     return (
         <Row>
             <Col s={6}>
-                <label className="white-text label-big pl-4" for="votesButtons">
+                <label className="white-text label-big pl-4" htmlFor="votesButtons">
                     {post.voteScore} Votes
                                     </label>
                 <div name="votesButtons">
@@ -22,7 +22,7 @@ export default function PostVotesActions({ post, categories, votePost }) {
                 </div>
             </Col>
             <Col s={6}>
-                <label className="white-text label-big pl-68" for="actions">
+                <label className="white-text label-big pl-68" htmlFor="actions">
                     Actions
                                     </label>
                 <div name="actions">

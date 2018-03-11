@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Input, Icon } from 'react-materialize';
+import { Row, Input, Icon } from 'react-materialize';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import uuid from 'uuid';
@@ -33,7 +33,7 @@ class FormComment extends Component {
 
     handleSubmit() {
 
-        const { comment, author, body, parentId } = this.state;
+        const { comment, author, body, parentId, voteScore } = this.state;
         if (comment !== undefined && comment.id !== undefined) {
 
             const commentEdit = {
@@ -52,6 +52,7 @@ class FormComment extends Component {
                 author,
                 body,
                 parentId,
+                voteScore,
                 timestamp: Date.now()
             }
 

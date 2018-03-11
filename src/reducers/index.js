@@ -5,7 +5,6 @@ import {
   actionGetAll,
   actionGetCategories,
   actionAddPost,
-  actionRemovePost,
   actionLoading,
   actionVoteComment,
   actionGetAlByCategory,
@@ -22,7 +21,6 @@ import {
   actionAddComment,
   actionUpdateComment,
   ADD_POST,
-  REMOVE_POST,
   GET_ALL,
   GET_CATEGORIES,
   ADD_VOTE_POST,
@@ -37,7 +35,7 @@ import {
   ORDER_BY_POSTS,
   GET_POST_DETAIL,
   ADD_COMMENT,
-  UPDATE_COMMENT,  
+  UPDATE_COMMENT,
   MODAL_NEW_COMMENT,
   MODAL_EDIT_COMMENT,
   MODAL_DELETE_COMMENT,
@@ -74,11 +72,6 @@ export default function posts(state = initialState, action) {
         ...state,
         ...state.postDetail.comments = [...state.postDetail.comments, comment],
         showingNewCommentModal: false
-      }
-    case REMOVE_POST:
-      return {
-        ...state,
-        [post]: null
       }
     case GET_ALL:
       return {
@@ -218,7 +211,7 @@ export default function posts(state = initialState, action) {
         })
       }
     case ORDER_BY_POSTS:
-    const { orderAscending } = action;
+      const { orderAscending } = action;
       return {
         ...state,
         orderAscending
@@ -386,8 +379,8 @@ export function getAll() {
     ReadebleAPI.getAll()
       .then((posts) => {
         posts.map((pt) => {
-          pt.showingEditModal = false,
-            pt.showingDeleteModal = false
+          pt.showingEditModal = false;
+          pt.showingDeleteModal = false;
         })
         const action = actionGetAll(posts);
         dispatch(action);
@@ -441,8 +434,8 @@ function getComments(postDetail, dispatch) {
   ReadebleAPI.getComments(postId)
     .then((comments) => {
       comments.map((cmt) => {
-        cmt.showingEditCommentModal = false,
-          cmt.showingDeleteCommentModal = false
+        cmt.showingEditCommentModal = false;
+        cmt.showingDeleteCommentModal = false;
       })
       postDetail.comments = comments;
       const action = actionGetPostDetails(postDetail);

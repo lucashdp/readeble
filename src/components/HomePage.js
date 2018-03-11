@@ -3,9 +3,7 @@ import Post from './Post';
 import PostModal from './PostModal';
 import Loading from './Loading';
 import { connect } from 'react-redux';
-import * as ReadebleAPI from '../utils/ReadebleAPI';
 import { bindActionCreators } from "redux";
-import { Navbar, NavItem } from 'react-materialize';
 import {
     getAll, getCategories, getAllByCategory
 } from "../reducers";

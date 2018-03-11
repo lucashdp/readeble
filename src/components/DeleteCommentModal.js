@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Row } from 'react-materialize';
-import $ from 'jquery';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import Modal from 'react-modal';

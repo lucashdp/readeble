@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import Loading from './Loading';
+import React from 'react';
 import RoutesApp from './RoutesApp';
-import { Route } from 'react-router-dom'
-import { ConnectedRouter, routerMiddleware, routerReducer } from "react-router-redux";
+import { routerMiddleware, routerReducer } from "react-router-redux";
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';

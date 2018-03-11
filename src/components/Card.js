@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-materialize';
 import PostCard from './PostCard';
-import CommentCard from './CommentCard';
 import PostDetailCard from './PostDetailCard';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
@@ -15,8 +13,8 @@ class Card extends Component {
         const { post, postDetail } = this.props;
 
         return (
-            <div class="card blue darken-1">
-                <div class="card-action">
+            <div className="card blue darken-1">
+                <div className="card-action">
                     {post ? (
                         <PostCard post={post} votePost={this.props.votePost} />
                     ) :

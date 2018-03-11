@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col, Button } from 'react-materialize';
 import DeleteCommentModal from './DeleteCommentModal';
 import CommentModal from './CommentModal';

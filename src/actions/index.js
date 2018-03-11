@@ -4,7 +4,6 @@ export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const ADD_VOTE_COMMENT = 'ADD_VOTE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
-export const REMOVE_POST = 'REMOVE_POST';
 export const GET_ALL = 'GET_ALL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_VOTE_POST = 'ADD_VOTE_POST';
@@ -47,13 +46,6 @@ export function actionVoteComment(comment, option) {
     type: ADD_VOTE_COMMENT,
     comment,
     option
-  }
-}
-
-export function actionRemovePost({ post }) {
-  return {
-    type: REMOVE_POST,
-    post
   }
 }
 

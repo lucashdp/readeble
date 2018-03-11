@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Icon, Input } from 'react-materialize';
-import { Link } from 'react-router-dom';
 import Post from './Post';
 import Loading from './Loading';
 import { connect } from 'react-redux';

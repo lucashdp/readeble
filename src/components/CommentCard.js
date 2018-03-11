@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize';
-import { Button, Input, Icon } from 'react-materialize';
-import DeleteCommentModal from './DeleteCommentModal';
+import React from 'react';
+import { Row } from 'react-materialize';
+import { Input, Icon } from 'react-materialize';
 import CommentVotesActions from './CommentVotesActions';
 
 export default function CommentCard({ comment, voteComment, parentId }) {

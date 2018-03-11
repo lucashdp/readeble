@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Row } from 'react-materialize';
-import $ from 'jquery';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
@@ -31,7 +30,7 @@ class DeletePostModal extends Component {
                 <Button className='red right' onClick={() => {
                     modalDeletePost(post, true);
                 }}>
-                    <i class="material-icons">delete</i>
+                    <i className="material-icons">delete</i>
                 </Button>
                 <Modal
                     style={style}

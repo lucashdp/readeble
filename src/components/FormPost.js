@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Input, Icon } from 'react-materialize';
+import { Row, Input, Icon } from 'react-materialize';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import uuid from 'uuid';
@@ -85,7 +85,7 @@ class FormPost extends Component {
                 <Row>
                     <Input s={12} type='select' label="Category" name="category" value={this.state.category}
                         onChange={this.handleChange}>
-                        {(categories != undefined && categories.length > 0) ?
+                        {(categories !== undefined && categories.length > 0) ?
                             categories.map((category) => (
                                 <option key={category.path}>{category.name}</option>
                             )) : ""}

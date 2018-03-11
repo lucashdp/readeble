@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import Post from './Post';
-import PostModal from './PostModal';
-import Loading from './Loading';
 import { connect } from 'react-redux';
-import * as ReadebleAPI from '../utils/ReadebleAPI';
 import { bindActionCreators } from "redux";
-import { Navbar, NavItem, Dropdown, Button } from 'react-materialize';
+import { Navbar, NavItem, Button } from 'react-materialize';
 import {
     getCategories, orderByVotes
 } from "../reducers";
@@ -23,10 +19,10 @@ class Header extends Component {
                 {!loading ? (
                     <div>
                         <Navbar className="blue" left>
-                            <NavItem href='/'><i className="material-icons">&#xE88A;</i></NavItem>
-                            {(categories != undefined && categories.length > 0) ?
+                            <NavItem href='/' key='/'><i className="material-icons">&#xE88A;</i></NavItem>
+                            {(categories !== undefined && categories.length > 0) ?
                                 categories.map((category) => (
-                                    <NavItem href={'/' + category.path}>{category.name}</NavItem>
+                                    <NavItem href={'/' + category.path} key={'/' + category.path}>{category.name}</NavItem>
                                 )) : ""}
                         </Navbar>
                         <div className="p-1" hidden={path !== ""}>

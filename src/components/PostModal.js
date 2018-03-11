@@ -19,7 +19,7 @@ class PostModal extends Component {
                         <Button className='blue right' id={post.id} onClick={() => {
                             modal(post, true);
                         }}>
-                            <i class="material-icons">mode_edit</i>
+                            <i className="material-icons">mode_edit</i>
                         </Button>
                         <Modal
                             contentLabel='Edit Post'

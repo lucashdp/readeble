@@ -4,9 +4,6 @@ import HomePage from './HomePage';
 import Header from './Header';
 import PostDetail from './PostDetail';
 import { ConnectedRouter } from "react-router-redux";
-import {
-    getAllByCategory, getCategories
-} from "../reducers";
 
 class RoutesApp extends Component {
     render() {
