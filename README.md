@@ -6,16 +6,16 @@
 
 ### Initial Page
 - On the initial page you can add / edit / create posts. You can do positive or negative votes on the posts too, and sort the posts by votes.
-// TODO: image of first page.
+![Initial Page](https://raw.githubusercontent.com/lucashdp/readeble-redux-app/master/initialPage.jpg)
 
 ### Post Details Page
 - On the Post Details Page, you can say something in the post. You can edit / delete the comments too. The comments have votes like the posts.
-// ALL: image of the detail post page
+![Initial Page](https://raw.githubusercontent.com/lucashdp/readeble-redux-app/master/postDetails.JPG)
 
 
 ### Category Post Page
 - On the Category Post, you can see only the posts of this category. This is accessible on the nav bar menu.
-// ALL: image of the Post Page
+![Initial Page](https://raw.githubusercontent.com/lucashdp/readeble-redux-app/master/categoryPost.JPG)
 
 ## Pre-Requisites
 
