@@ -18,6 +18,7 @@ export const MODAL_DELETE_COMMENT = 'MODAL_DELETE_COMMENT';
 export const ORDER_BY_POSTS = 'ORDER_BY_POSTS';
 export const GET_POST_DETAIL = 'GET_POST_DETAIL';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const ORDER_BY_DATE = 'ORDER_BY_DATE';
 
 export function actionAddPost(post) {
   return {
@@ -155,6 +156,13 @@ export function actionOrderByVotes(orderAscending) {
   return {
     type: ORDER_BY_POSTS,
     orderAscending
+  }
+}
+
+export function actionOrderByDate(orderAscendingDate) {
+  return {
+    type: ORDER_BY_DATE,
+    orderAscendingDate
   }
 }
 

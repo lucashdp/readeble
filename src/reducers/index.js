@@ -17,6 +17,7 @@ import {
   actionModalDeleteComment,
   actionDeletePost,
   actionOrderByVotes,
+  actionOrderByDate,
   actionGetPostDetails,
   actionAddComment,
   actionUpdateComment,
@@ -33,6 +34,7 @@ import {
   MODAL_DELETE_POST,
   DELETE_POST,
   ORDER_BY_POSTS,
+  ORDER_BY_DATE,
   GET_POST_DETAIL,
   ADD_COMMENT,
   UPDATE_COMMENT,
@@ -54,7 +56,8 @@ const initialState =
     showingNewCommentModal: false,
     showingAnyCommentToDelete: false,
     showingAnyCommentToEdit: false,
-    orderAscending: true
+    orderAscending: true,
+    orderAscendingDate: true
   }
 
 export default function posts(state = initialState, action) {
@@ -214,7 +217,25 @@ export default function posts(state = initialState, action) {
       const { orderAscending } = action;
       return {
         ...state,
-        orderAscending
+        orderAscending,
+        ...state.posts.sort((a, b) => {
+          if (orderAscending)
+            return a.voteScore - b.voteScore;
+          else
+            return b.voteScore - a.voteScore;
+        })
+      }
+    case ORDER_BY_DATE:
+      const { orderAscendingDate } = action;
+      return {
+        ...state,
+        orderAscendingDate,
+        ...state.posts.sort((a, b) => {
+          if (orderAscendingDate)
+            return a.timestamp - b.timestamp;
+          else
+            return b.timestamp - a.timestamp;
+        })
       }
     case GET_POST_DETAIL:
       return {
@@ -342,6 +363,17 @@ export function orderByVotes(orderAscending) {
   }
 }
 
+export function orderByDate(orderAscendingDate) {
+  return (dispatch) => {
+    reload(true, dispatch);
+
+    const action = actionOrderByDate(orderAscendingDate);
+    dispatch(action);
+
+    reload(false, dispatch);
+  }
+}
+
 export function removePost(post) {
   return (dispatch) => {
     reload(true, dispatch);
@@ -381,6 +413,9 @@ export function getAll() {
         posts.map((pt) => {
           pt.showingEditModal = false;
           pt.showingDeleteModal = false;
+        })
+        posts.sort((a, b) => {
+            return a.voteScore - b.voteScore;
         })
         const action = actionGetAll(posts);
         dispatch(action);

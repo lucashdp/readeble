@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { Row, Input, Icon } from 'react-materialize';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -48,7 +49,7 @@ class FormPost extends Component {
                 body,
                 category,
                 title,
-                timestamp: Date.now(),
+                timestamp: moment().unix(),
                 voteScore: post.voteScore,
                 commentCount: post.commentCount
             }
@@ -62,7 +63,7 @@ class FormPost extends Component {
                 body,
                 category,
                 title,
-                timestamp: Date.now(),
+                timestamp: moment().unix(),
                 voteScore,
                 commentCount
             }
